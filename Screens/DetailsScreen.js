@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
- 
 import React from 'react'
 
-function App() {
+function DetailsScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
+      <Text>Details Screen</Text>
     </View>
   );
 }
 
+export default DetailsScreen
 
-export default App
+const styles = StyleSheet.create({})
