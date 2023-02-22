@@ -6,16 +6,18 @@ import {
   Image,
   Dimensions,
   StyleSheet,
- 
- 
- 
-
+  TextInput,
 } from 'react-native';
 
-import React from 'react';
+import React, {useState} from 'react';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+import {ListItem} from 'react-native-ui-lib';
+import {CheckBox} from '@rneui/base';
 
 const LoginScreen = () => {
+  const [isSelected, setSelection] = useState(false);
+
   return (
     //Container Start
     <ScrollView
@@ -46,15 +48,49 @@ const LoginScreen = () => {
               Register now
             </Text>
           </Text>
-          {/* Form Input View */}
-          <View style={{marginTop:50}}>
-            
-            
-           
-          
 
+          {/* Form TextInput View */}
+          <View style={styles.formSection}>
+            <View style={styles.emailSection}>
+              <TextInput
+                style={{fontSize: 25, borderColor: '#4632A1'}}
+                placeholder="Email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                returnKeyType={'go'}
+              />
+              <Icon
+                name="checkmark"
+                style={styles.checkmarkIcon}
+                size={30}
+                color="#4632A1"
+              />
+            </View>
+
+            <View style={styles.passwordSection}>
+              <TextInput
+                style={{fontSize: 25, borderColor: '#4632A1'}}
+                placeholder="Password"
+                secureTextEntry={true}
+              />
+
+              <Icon
+                name="eye"
+                style={styles.checkmarkIcon}
+                size={30}
+                color="#4632A1"
+              />
+            </View>
           </View>
 
+          {/* Forgot Password &  Rebember Me View */}
+          <View style={styles.forgotSection}>
+            <View style={{flex: 1, marginLeft: -20}}>
+              <View>
+                <CheckBox value={isSelected} style={styles.checkbox} />
+              </View>
+            </View>
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -82,5 +118,29 @@ const styles = StyleSheet.create({
     bottom: 50,
     borderTopStartRadius: 60,
     borderTopEndRadius: 60,
+  },
+  formSection: {
+    marginTop: 50,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
+  emailSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+  },
+  passwordSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+    marginTop: 20,
+  },
+  checkmarkIcon: {
+    padding: 10,
+  },
+  forgotSection: {
+    height: 50,
+    marginTop: 20,
+    flexDirection: 'row',
   },
 });
