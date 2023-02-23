@@ -7,6 +7,7 @@ import {
   Dimensions,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
 
 import React, {useState} from 'react';
@@ -15,8 +16,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {ListItem} from 'react-native-ui-lib';
 import {CheckBox} from '@rneui/base';
 
+const buttonPass = () => {}
+
 const LoginScreen = () => {
-  const [isSelected, setSelection] = useState(false);
+  const [checked, setChecked] = useState(true);
+  const toggleCheckbox = () => setChecked(!checked);
 
   return (
     //Container Start
@@ -38,16 +42,23 @@ const LoginScreen = () => {
       {/* Bottom View */}
       <View style={styles.bottomView}>
         {/* Welcome View */}
-
         <View style={{padding: 40}}>
-          <Text style={{color: '#4632A1', fontSize: 34}}>Welcome</Text>
-          <Text>
-            Don't have an account?
-            <Text style={{color: 'red', fontStyle: 'italic'}}>
-              {' '}
-              Register now
-            </Text>
-          </Text>
+          <Text style={{color: '#4632A1', fontSize: 35}}>Welcome</Text>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              fontSize: 18,
+            }}>
+            <Text>Don't have an account?</Text>
+
+            <TouchableOpacity onPress={buttonPass}>
+              <Text style={{color: 'red', fontStyle: 'italic'}}>
+                Register now
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           {/* Form TextInput View */}
           <View style={styles.formSection}>
@@ -85,11 +96,34 @@ const LoginScreen = () => {
 
           {/* Forgot Password &  Rebember Me View */}
           <View style={styles.forgotSection}>
-            <View style={{flex: 1, marginLeft: -20}}>
-              <View>
-                <CheckBox value={isSelected} style={styles.checkbox} />
-              </View>
-            </View>
+            <CheckBox
+              size={24}
+              checked={checked}
+              onPress={toggleCheckbox}
+              iconType="material-community"
+              checkedIcon="checkbox-marked"
+              uncheckedIcon="checkbox-blank-outline"
+              checkedColor="blue"
+              title="Remember Me"
+            />
+
+            <TouchableOpacity onPress={buttonPass}>
+              <Text style={{color: '#8f9195', fontSize: 18}}>
+                Forgot Password
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Login Button */}
+          <View
+            style={{
+              height: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity onPress={buttonPass} style={styles.button}>
+              <Text style={styles.buttonLabel}>LogIn</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -120,9 +154,10 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 60,
   },
   formSection: {
+    flex: 1,
     marginTop: 50,
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   emailSection: {
     flexDirection: 'row',
@@ -139,8 +174,27 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   forgotSection: {
-    height: 50,
-    marginTop: 20,
+    height: 60,
+    marginTop: 10,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginLeft: -20,
+  },
+  button: {
+    height: 40,
+    borderRadius: 50,
+    backgroundColor: '#4632A1',
+    textAlign: 'center',
+    alignSelf: 'center',
+    width: Dimensions.get('window').width / 2,
+    justifyContent: 'center',
+  },
+  buttonLabel: {
+    textAlign: 'center',
+   
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#ffffff',
   },
 });
