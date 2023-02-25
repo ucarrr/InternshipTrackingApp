@@ -25,7 +25,7 @@ const LoginScreen = () => {
   return (
     //Container Start
     <ScrollView
-      style={{flex: 1, backgroundColor: 'ffffff'}}
+      style={{flex: 1, backgroundColor: '#ffffff'}}
       showsVerticalScrollIndicator={false}>
       {/* Brand View */}
       <ImageBackground
