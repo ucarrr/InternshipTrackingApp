@@ -16,7 +16,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {ListItem} from 'react-native-ui-lib';
 import {CheckBox} from '@rneui/base';
 
-const buttonPass = () => {}
+var screenWidth = Dimensions.get('window').width;
+var screenHeight = Dimensions.get('window').height;
+
+const buttonPass = () => {};
 
 const LoginScreen = () => {
   const [checked, setChecked] = useState(true);
@@ -34,7 +37,13 @@ const LoginScreen = () => {
           height: Dimensions.get('window').height / 2.5,
         }}>
         <View style={styles.brandView}>
-          <Image source={require('../Assets/logo.png')}></Image>
+          <Image
+            source={require('../Assets/logo.png')}
+            style={{
+              width:screenWidth/3.5,
+              height:screenHeight/5.5,
+            
+            }}></Image>
           <Text style={styles.brandViewText}>InternShip</Text>
         </View>
       </ImageBackground>
@@ -49,12 +58,12 @@ const LoginScreen = () => {
             style={{
               flexDirection: 'row',
               justifyContent: 'flex-start',
-              fontSize: 18,
+             
             }}>
-            <Text>Don't have an account?</Text>
+            <Text style={{ fontSize: 18}}>Don't have an account?</Text>
 
             <TouchableOpacity onPress={buttonPass}>
-              <Text style={{color: 'red', fontStyle: 'italic'}}>
+              <Text style={{color: 'red', fontStyle: 'italic', fontSize: 18}}>
                 Register now
               </Text>
             </TouchableOpacity>
@@ -192,7 +201,7 @@ const styles = StyleSheet.create({
   },
   buttonLabel: {
     textAlign: 'center',
-   
+
     fontSize: 20,
     fontWeight: '700',
     color: '#ffffff',
