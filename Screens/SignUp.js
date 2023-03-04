@@ -5,6 +5,8 @@ import {
   ImageBackground,
   Image,
   Dimensions,
+  TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -17,11 +19,11 @@ const SignUp = ({navigation}) => {
     <ScrollView
       style={{flex: 1, backgroundColor: '#ffffff'}}
       showsVerticalScrollIndicator={false}>
-      {/* Brand View */}
       <ImageBackground
         source={require('../Assets/texture_surface_dark.jpg')}
         style={{
-          height: Dimensions.get('window').height / 2.5,
+          height: Dimensions.get('window').height / 1,
+          width: Dimensions.get('window').width / 1,
         }}>
         <View style={styles.brandView}>
           <Image
@@ -30,7 +32,70 @@ const SignUp = ({navigation}) => {
               width: screenWidth / 3.5,
               height: screenHeight / 5.5,
             }}></Image>
-          <Text style={styles.brandViewText}>InternShip</Text>
+          <Text style={styles.brandViewText}>Create your Account</Text>
+        </View>
+
+        <View style={styles.bottomView}>
+          <View style={{padding: 40}}>
+            <Text style={{color: '#4632A1', fontSize: 35}}>Welcome</Text>
+
+            <View style={styles.emailSection}>
+              <TextInput
+                style={styles.input}
+                placeholder={'Username'}
+                autoCapitalize={'none'}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                returnKeyType={'go'}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder={'Password'}
+                secureTextEntry
+              />
+              <TextInput
+                style={styles.input}
+                placeholder={'Confirm Password'}
+                secureTextEntry
+              />
+            </View>
+            <View
+              style={{
+                height: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 10,
+              }}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('HomeScreen')}
+                style={styles.button}>
+                <Text style={styles.buttonLabel}>SignUp</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                marginTop: 10,
+                flexDirection: 'row',
+              }}>
+              <Text
+                style={{color: '#4632A1', fontStyle: 'italic', fontSize: 18}}>
+                Already have an account?
+              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('LoginScreen')}>
+                <Text style={{color: 'red', fontStyle: 'italic', fontSize: 18}}>
+                  LogIn
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </ImageBackground>
     </ScrollView>
@@ -40,68 +105,56 @@ const SignUp = ({navigation}) => {
 export default SignUp;
 
 const styles = StyleSheet.create({
-
   brandView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   brandViewText: {
+    marginTop: 15,
     color: '#ffffff',
-    fontSize: 35,
+    fontSize: 28,
     fontWeight: 'bold',
     textTransform: 'uppercase',
   },
+  signUpText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    fontSize: 30,
+  },
   bottomView: {
-    flex: 1.5,
+    flex: 2,
     backgroundColor: '#ffffff',
-    bottom: 50,
+    bottom: 10,
     borderTopStartRadius: 60,
     borderTopEndRadius: 60,
   },
-  formSection: {
-    flex: 1,
-    marginTop: 30,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
   emailSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#fff',
-  },
-  passwordSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#fff',
-    marginTop: 20,
-  },
-  checkmarkIcon: {
-    padding: 10,
-  },
-  forgotSection: {
-    height: 60,
     marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginLeft: -20,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'space-around',
+  },
+  input: {
+    color: '#4632A1',
+    fontSize: 25,
+    borderColor: '#4632A1',
   },
   button: {
-    height: 40,
+    height: 50,
     borderRadius: 50,
     backgroundColor: '#4632A1',
     textAlign: 'center',
     alignSelf: 'center',
-    width: Dimensions.get('window').width / 2,
+    width: Dimensions.get('window').width / 1.2,
     justifyContent: 'center',
   },
   buttonLabel: {
     textAlign: 'center',
 
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: '700',
     color: '#ffffff',
   },
-
+  inputSignUp: {},
 });
