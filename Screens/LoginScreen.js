@@ -8,12 +8,13 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 
 import React, {useState} from 'react';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import {ListItem} from 'react-native-ui-lib';
+
 import {CheckBox} from '@rneui/base';
 
 var screenWidth = Dimensions.get('window').width;
@@ -21,9 +22,22 @@ var screenHeight = Dimensions.get('window').height;
 
 const buttonPass = () => {};
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [checked, setChecked] = useState(true);
   const toggleCheckbox = () => setChecked(!checked);
+  const [password, setPassword] = useState('');
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
+  const [eyeIcon, setIcon] = useState('eye');
+
+  const handlePasswordVisibility = () => {
+    if (eyeIcon === 'eye') {
+      setIcon('eye-off-sharp');
+      setPasswordVisibility(!passwordVisibility);
+    } else if (eyeIcon === 'eye-off-sharp') {
+      setIcon('eye');
+      setPasswordVisibility(!passwordVisibility);
+    }
+  };
 
   return (
     //Container Start
@@ -40,9 +54,8 @@ const LoginScreen = () => {
           <Image
             source={require('../Assets/logo.png')}
             style={{
-              width:screenWidth/3.5,
-              height:screenHeight/5.5,
-            
+              width: screenWidth / 3.5,
+              height: screenHeight / 5.5,
             }}></Image>
           <Text style={styles.brandViewText}>InternShip</Text>
         </View>
@@ -58,11 +71,10 @@ const LoginScreen = () => {
             style={{
               flexDirection: 'row',
               justifyContent: 'flex-start',
-             
             }}>
-            <Text style={{ fontSize: 18}}>Don't have an account?</Text>
+            <Text style={{fontSize: 18}}>Don't have an account?</Text>
 
-            <TouchableOpacity onPress={buttonPass}>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
               <Text style={{color: 'red', fontStyle: 'italic', fontSize: 18}}>
                 Register now
               </Text>
@@ -91,15 +103,16 @@ const LoginScreen = () => {
               <TextInput
                 style={{fontSize: 25, borderColor: '#4632A1'}}
                 placeholder="Password"
-                secureTextEntry={true}
+                secureTextEntry={passwordVisibility}
               />
-
-              <Icon
-                name="eye"
-                style={styles.checkmarkIcon}
-                size={30}
-                color="#4632A1"
-              />
+              <Pressable onPress={handlePasswordVisibility}>
+                <Icon
+                  name={eyeIcon}
+                  style={styles.checkmarkIcon}
+                  size={30}
+                  color="#4632A1"
+                />
+              </Pressable>
             </View>
           </View>
 
@@ -130,7 +143,9 @@ const LoginScreen = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <TouchableOpacity onPress={buttonPass} style={styles.button}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('HomeScreen')}
+              style={styles.button}>
               <Text style={styles.buttonLabel}>LogIn</Text>
             </TouchableOpacity>
           </View>
@@ -164,7 +179,7 @@ const styles = StyleSheet.create({
   },
   formSection: {
     flex: 1,
-    marginTop: 50,
+    marginTop: 30,
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
