@@ -11,7 +11,7 @@ import {
   Pressable,
 } from 'react-native';
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -54,8 +54,10 @@ const LoginScreen = ({navigation}) => {
           <Image
             source={require('../Assets/logo.png')}
             style={{
-              width: screenWidth / 3.5,
-              height: screenHeight / 5.5,
+              height: (Dimensions.get('window').height * 100) / 500,
+              width: (Dimensions.get('window').width * 100) / 200,
+              flex:2,
+              marginTop:5,
             }}></Image>
           <Text style={styles.brandViewText}>InternShip</Text>
         </View>
@@ -64,15 +66,16 @@ const LoginScreen = ({navigation}) => {
       {/* Bottom View */}
       <View style={styles.bottomView}>
         {/* Welcome View */}
-        <View style={{padding: 40}}>
+        <View style={{padding: 40, flex: 1}}>
           <Text style={{color: '#4632A1', fontSize: 35}}>Welcome</Text>
 
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'flex-start',
+              flex: 1,
             }}>
-            <Text style={{fontSize: 18}}>Don't have an account?</Text>
+            <Text style={{fontSize: 18, flex: 1}}>Don't have an account?</Text>
 
             <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
               <Text style={{color: 'red', fontStyle: 'italic', fontSize: 18}}>
@@ -85,7 +88,7 @@ const LoginScreen = ({navigation}) => {
           <View style={styles.formSection}>
             <View style={styles.emailSection}>
               <TextInput
-                style={{fontSize: 25, borderColor: '#4632A1'}}
+                style={styles.inputTextStyles}
                 placeholder="Email"
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -99,9 +102,9 @@ const LoginScreen = ({navigation}) => {
               />
             </View>
 
-            <View style={styles.passwordSection}>
+            <View style={styles.emailSection}>
               <TextInput
-                style={{fontSize: 25, borderColor: '#4632A1'}}
+                style={styles.inputTextStyles}
                 placeholder="Password"
                 secureTextEntry={passwordVisibility}
               />
@@ -142,6 +145,7 @@ const LoginScreen = ({navigation}) => {
               height: 50,
               justifyContent: 'center',
               alignItems: 'center',
+              flex: 1,
             }}>
             <TouchableOpacity
               onPress={() => navigation.navigate('HomeScreen')}
@@ -169,6 +173,8 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: 'bold',
     textTransform: 'uppercase',
+    marginBottom: 30,
+    flex:1,
   },
   bottomView: {
     flex: 1.5,
@@ -178,22 +184,18 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 60,
   },
   formSection: {
-    flex: 1,
+    flex: 3,
     marginTop: 30,
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignContent: 'space-around',
   },
   emailSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#fff',
   },
-  passwordSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#fff',
-    marginTop: 20,
-  },
+
   checkmarkIcon: {
     padding: 10,
   },
@@ -201,9 +203,10 @@ const styles = StyleSheet.create({
     height: 60,
     marginTop: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     marginLeft: -20,
+    flex: 1,
   },
   button: {
     height: 40,
@@ -211,7 +214,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4632A1',
     textAlign: 'center',
     alignSelf: 'center',
-    width: Dimensions.get('window').width / 2,
+    width: Dimensions.get('window').width / 1.5,
     justifyContent: 'center',
   },
   buttonLabel: {
@@ -220,5 +223,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: '#ffffff',
+  },
+  inputTextStyles: {
+    color: '#4632A1',
+    fontSize: 25,
+    borderColor: '#4632A1',
+    borderBottomColor: '#4632A1',
+    borderBottomWidth: 1,
+    flex: 1,
   },
 });
