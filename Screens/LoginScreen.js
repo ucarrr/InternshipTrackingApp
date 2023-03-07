@@ -48,113 +48,115 @@ const LoginScreen = ({navigation}) => {
       <ImageBackground
         source={require('../Assets/texture_surface_dark.jpg')}
         style={{
-          height: Dimensions.get('window').height / 2.5,
+          flex: 1,
         }}>
         <View style={styles.brandView}>
           <Image
-            source={require('../Assets/logo.png')}
+            source={require('../Assets/Akdeniz_Universitesi.png')}
             style={{
-              height: (Dimensions.get('window').height * 100) / 500,
+              height: (Dimensions.get('window').height * 100) / 400,
               width: (Dimensions.get('window').width * 100) / 200,
-              flex:2,
-              marginTop:5,
+              flex: 2,
+              marginTop: 5,
             }}></Image>
           <Text style={styles.brandViewText}>InternShip</Text>
         </View>
-      </ImageBackground>
 
-      {/* Bottom View */}
-      <View style={styles.bottomView}>
-        {/* Welcome View */}
-        <View style={{padding: 40, flex: 1}}>
-          <Text style={{color: '#4632A1', fontSize: 35}}>Welcome</Text>
+        {/* Bottom View */}
+        <View style={styles.bottomView}>
+          {/* Welcome View */}
+          <View style={{padding: 40, flex: 1}}>
+            <Text style={{color: '#4632A1', fontSize: 35}}>Welcome</Text>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              flex: 1,
-            }}>
-            <Text style={{fontSize: 18, flex: 1}}>Don't have an account?</Text>
-
-            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-              <Text style={{color: 'red', fontStyle: 'italic', fontSize: 18}}>
-                Register now
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                flex: 1,
+              }}>
+              <Text style={{fontSize: 18, flex: 1}}>
+                Don't have an account?
               </Text>
-            </TouchableOpacity>
-          </View>
 
-          {/* Form TextInput View */}
-          <View style={styles.formSection}>
-            <View style={styles.emailSection}>
-              <TextInput
-                style={styles.inputTextStyles}
-                placeholder="Email"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                returnKeyType={'go'}
-              />
-              <Icon
-                name="checkmark"
-                style={styles.checkmarkIcon}
-                size={30}
-                color="#4632A1"
-              />
+              <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                <Text style={{color: 'red', fontStyle: 'italic', fontSize: 18}}>
+                  Register now
+                </Text>
+              </TouchableOpacity>
             </View>
 
-            <View style={styles.emailSection}>
-              <TextInput
-                style={styles.inputTextStyles}
-                placeholder="Password"
-                secureTextEntry={passwordVisibility}
-              />
-              <Pressable onPress={handlePasswordVisibility}>
+            {/* Form TextInput View */}
+            <View style={styles.formSection}>
+              <View style={styles.emailSection}>
+                <TextInput
+                  style={styles.inputTextStyles}
+                  placeholder="Email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  returnKeyType={'go'}
+                />
                 <Icon
-                  name={eyeIcon}
+                  name="checkmark"
                   style={styles.checkmarkIcon}
                   size={30}
                   color="#4632A1"
                 />
-              </Pressable>
+              </View>
+
+              <View style={styles.emailSection}>
+                <TextInput
+                  style={styles.inputTextStyles}
+                  placeholder="Password"
+                  secureTextEntry={passwordVisibility}
+                />
+                <Pressable onPress={handlePasswordVisibility}>
+                  <Icon
+                    name={eyeIcon}
+                    style={styles.checkmarkIcon}
+                    size={30}
+                    color="#4632A1"
+                  />
+                </Pressable>
+              </View>
+            </View>
+
+            {/* Forgot Password &  Rebember Me View */}
+            <View style={styles.forgotSection}>
+              <CheckBox
+                size={24}
+                checked={checked}
+                onPress={toggleCheckbox}
+                iconType="material-community"
+                checkedIcon="checkbox-marked"
+                uncheckedIcon="checkbox-blank-outline"
+                checkedColor="blue"
+                title="Remember Me"
+              />
+
+              <TouchableOpacity onPress={buttonPass}>
+                <Text style={{color: '#8f9195', fontSize: 18}}>
+                  Forgot Password
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Login Button */}
+            <View
+              style={{
+                height: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+                flex: 1,
+              }}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('HomeScreen')}
+                style={styles.button}>
+                <Text style={styles.buttonLabel}>LogIn</Text>
+              </TouchableOpacity>
             </View>
           </View>
-
-          {/* Forgot Password &  Rebember Me View */}
-          <View style={styles.forgotSection}>
-            <CheckBox
-              size={24}
-              checked={checked}
-              onPress={toggleCheckbox}
-              iconType="material-community"
-              checkedIcon="checkbox-marked"
-              uncheckedIcon="checkbox-blank-outline"
-              checkedColor="blue"
-              title="Remember Me"
-            />
-
-            <TouchableOpacity onPress={buttonPass}>
-              <Text style={{color: '#8f9195', fontSize: 18}}>
-                Forgot Password
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Login Button */}
-          <View
-            style={{
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              flex: 1,
-            }}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('HomeScreen')}
-              style={styles.button}>
-              <Text style={styles.buttonLabel}>LogIn</Text>
-            </TouchableOpacity>
-          </View>
         </View>
-      </View>
+      </ImageBackground>
     </ScrollView>
     //Container end
   );
@@ -173,15 +175,15 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    marginBottom: 30,
-    flex:1,
+
+    flex: 1,
   },
   bottomView: {
-    flex: 1.5,
+    flex: 3,
     backgroundColor: '#ffffff',
-    bottom: 50,
     borderTopStartRadius: 60,
     borderTopEndRadius: 60,
+    marginTop: 20,
   },
   formSection: {
     flex: 3,

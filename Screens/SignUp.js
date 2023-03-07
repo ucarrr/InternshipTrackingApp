@@ -51,10 +51,10 @@ const SignUp = ({navigation}) => {
         }}>
         <View style={styles.brandView}>
           <Image
-            source={require('../Assets/logo.png')}
+            source={require('../Assets/Akdeniz_Universitesi.png')}
             style={{
               height: (Dimensions.get('window').height * 100) / 500,
-              width: (Dimensions.get('window').width * 100) / 300,
+              width: (Dimensions.get('window').width * 100) / 250,
               marginTop: 10,
               flex: 2,
             }}></Image>
