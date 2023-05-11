@@ -66,7 +66,7 @@ const LoginScreen = ({navigation}) => {
         <View style={styles.bottomView}>
           {/* Welcome View */}
           <View style={{padding: 40, flex: 1}}>
-            <Text style={{color: '#4632A1', fontSize: 35}}>Welcome</Text>
+            <Text style={{color: '#000080', fontSize: 35}}>Welcome</Text>
 
             <View
               style={{
@@ -151,7 +151,7 @@ const LoginScreen = ({navigation}) => {
               <TouchableOpacity
                 onPress={() => navigation.navigate('HomeScreen')}
                 style={styles.button}>
-                <Text style={styles.buttonLabel}>LogIn</Text>
+                <Text style={styles.buttonLabel}>Login</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
 
   checkmarkIcon: {
     padding: 10,
+    color:'#000080'
   },
   forgotSection: {
     height: 60,
@@ -213,7 +214,7 @@ const styles = StyleSheet.create({
   button: {
     height: 40,
     borderRadius: 50,
-    backgroundColor: '#4632A1',
+    backgroundColor: '#000080',
     textAlign: 'center',
     alignSelf: 'center',
     width: Dimensions.get('window').width / 1.5,
