@@ -7,8 +7,10 @@ import {
   Dimensions,
   TouchableOpacity,
   Button,
+  Pressable,
 } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const {width, height} = Dimensions.get('window');
 const labels = [
@@ -23,26 +25,26 @@ const customStyles = {
   currentStepIndicatorSize: 35,
   separatorStrokeWidth: 2,//2
   currentStepStrokeWidth: 3, //3
-  stepStrokeCurrentColor: 'blue',
+  stepStrokeCurrentColor: '#5198C9',
   stepStrokeWidth: 2, //3
   stepStrokeFinishedColor: '#4AB0F4',
   stepStrokeUnFinishedColor: '#aaaaaa', //aaaaa
   separatorFinishedColor: '#4AB0F4',
   separatorUnFinishedColor: '#aaaaaa',
   stepIndicatorFinishedColor: '#4AB0F4',//mavi
-  stepIndicatorUnFinishedColor: 'grey',
+  stepIndicatorUnFinishedColor: '#C7D2DB',//#8095A7
   stepIndicatorCurrentColor: 'white',
   stepIndicatorLabelFontSize: 17,
   currentStepIndicatorLabelFontSize: 20,
-  stepIndicatorLabelCurrentColor: 'blue',
-  stepIndicatorLabelFinishedColor: 'grey',
+  stepIndicatorLabelCurrentColor: '#5198C9',
+  stepIndicatorLabelFinishedColor: '#8095A7', //grey
   stepIndicatorLabelUnFinishedColor: '#aaaaaa',
   labelColor: '#999999',
   labelSize: 40,
-  currentStepLabelColor: 'blue',
+  currentStepLabelColor: '#5198C9',
 };
 
-function DetailsScreen() {
+function DetailsScreen({navigation}) {
   const [currentPosition, setCurrentPosition] = useState(0);
 
   const nextStep = () => {
@@ -87,9 +89,8 @@ function DetailsScreen() {
         <Text style={styles.headerText}>Internship Step</Text>
       </View>
 
-      <View style={styles.indicatorContainer}>
 
-
+      <View style={styles.indicatorContainer}> 
         <TouchableOpacity style={styles.nextBtn} onPress={()=> alert("yüklenecek")}>
           <Text style={styles.text}>Questions</Text>
         </TouchableOpacity>
@@ -99,10 +100,12 @@ function DetailsScreen() {
           currentPosition={currentPosition}
           labels={labels}
           direction="vertical"
-          renderLabel={({position, stepStaus, label, crntPosition}) => {
+          renderLabel={({position, stepStatus, label, crntPosition}) => {
             return (
               <View style={styles.lblContainer}>
+                <Pressable  onPress={() => navigation.navigate('InternshipDetail')}>
                 <Text style={styles.lblText}>{data[position].label}</Text>
+                </Pressable>
                 <Text style={[styles.status, {marginTop: 5}]}>
                   {data[position].status}
                 </Text>
@@ -113,6 +116,7 @@ function DetailsScreen() {
         />
         <TouchableOpacity style={styles.nextBtn} onPress={()=> nextStep()}>
           <Text style={styles.text}>Next</Text>
+          <Icon name="check" color='#5198C9' size={28} paddingTop={12}/>
         </TouchableOpacity>
       </View>
     </View>
@@ -124,7 +128,7 @@ export default DetailsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'grey', //1e1e1e
+    backgroundColor: '#E9EAEA', //1e1e1e,#8095A7
   },
   header: {
     height: 55,
@@ -136,7 +140,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerText: {
-    color: 'blue', //ff3232
+    color: '#095DA4', //ff3232
     fontSize: 22,
     fontWeight: 'bold',
   },
@@ -151,14 +155,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   lblContainer: {
-    marginTop: 40,
+    marginTop: 30,
     padding: 10,
     paddingLeft: 15,
     width: width - 100,
   },
   lblText: {
-    fontSize: 19,
-    color: 'black', // black
+    fontSize: 21,
+    color: '#03131F', // black
     fontWeight: 'bold',
   },
   status: {
@@ -167,12 +171,16 @@ const styles = StyleSheet.create({
     
   },
   nextBtn:{
-    alignSelf:'flex-end',
-    color:'grey',
+    alignItems:'center',
+    justifyContent:'flex-end',
+    color:'#8095A7',
+    flexDirection:'row',
   },
   text:{
-    color:'#4AB0F4',
+    color:'#5198C9',
     fontSize:18,
+    fontWeight:'bold',
+    paddingTop:12,
   },
 });
 

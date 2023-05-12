@@ -10,6 +10,7 @@ import HomeScreen from '../Screens/HomeScreen';
 import SplashScreen from '../Screens/SplashScreen';
 import SignUp from '../Screens/SignUp';
 import Profile from '../Screens/Profile';
+import InternshipDetail  from '../Screens/InternshipDetail';
  
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -31,6 +32,7 @@ function route() {
           component={LoginScreen}
           options={{headerShown: false}}
         />
+        
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen
           name="SignUp"
@@ -38,6 +40,7 @@ function route() {
           options={{headerShown: false}}
         />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="InternshipDetail" component={InternshipDetail} />
         <Stack.Screen
           options={{headerShown: false}}
           name="HomeScreen"
@@ -82,6 +85,7 @@ function MyBottomTabs() {
           ),
         }}
       />
+  
       <Tab.Screen
         name="Profile"
         component={Profile}
