@@ -11,7 +11,7 @@ import SplashScreen from '../Screens/SplashScreen';
 import SignUp from '../Screens/SignUp';
 import Profile from '../Screens/Profile';
 import InternshipDetail  from '../Screens/InternshipDetail';
- 
+import TimelineScreen from '../Screens/TimelineScreen';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -41,6 +41,7 @@ function route() {
         />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="InternshipDetail" component={InternshipDetail} />
+        <Stack.Screen name="TimelineScreen" component={TimelineScreen} />
         <Stack.Screen
           options={{headerShown: false}}
           name="HomeScreen"
@@ -58,7 +59,7 @@ function MyBottomTabs() {
     <Tab.Navigator
       initialRouteName="HomeScreen"
       screenOptions={{
-        tabBarActiveTintColor: '#3366ff',
+        tabBarActiveTintColor: '#5198C9',
       }}>
       <Tab.Screen
         name="Home"

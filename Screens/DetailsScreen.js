@@ -103,7 +103,7 @@ function DetailsScreen({navigation}) {
           renderLabel={({position, stepStatus, label, crntPosition}) => {
             return (
               <View style={styles.lblContainer}>
-                <Pressable  onPress={() => navigation.navigate('InternshipDetail')}>
+                <Pressable  onPress={() => navigation.navigate('TimelineScreen')}>
                 <Text style={styles.lblText}>{data[position].label}</Text>
                 </Pressable>
                 <Text style={[styles.status, {marginTop: 5}]}>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerText: {
-    color: '#095DA4', //ff3232
+    color: '#5198C9', //ff3232
     fontSize: 22,
     fontWeight: 'bold',
   },

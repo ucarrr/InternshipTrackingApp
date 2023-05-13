@@ -15,7 +15,7 @@ const InternShipDetail = ({navigation}) => {
         </Text>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('DetailsScreen')}
+          onPress={() => navigation.navigate('TimelineScreen')}
           style={styles.button}>
           <Text style={styles.buttonLabel}>Back</Text>
         </TouchableOpacity>

@@ -4,9 +4,11 @@ import {Title, Avatar, Caption, TouchableRipple} from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon1 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Profile = () => {
+  const navigation = useNavigation();
   return (
    <SafeAreaView style={styles.container}>
     <View style={styles.userInfoSection}>
@@ -85,7 +87,7 @@ const Profile = () => {
           <Text style={styles.menuItemText}>Message</Text>
         </View>
       </TouchableRipple>
-      <TouchableRipple onPress={() => {}}>
+      <TouchableRipple onPress={() => navigation.navigate("LogIn")}>
         <View style={styles.menuItem}>
           <Icon1 name='logout' color='#5198C9' size={25}/>
           <Text style={styles.menuItemText}>Logout</Text>
