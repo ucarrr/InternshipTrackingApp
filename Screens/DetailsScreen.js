@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Button,
   Pressable,
+  ImageBackground,
 } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -23,7 +24,7 @@ const labels = [
 const customStyles = {
   stepIndicatorSize: 25,
   currentStepIndicatorSize: 35,
-  separatorStrokeWidth: 2,//2
+  separatorStrokeWidth: 2, //2
   currentStepStrokeWidth: 3, //3
   stepStrokeCurrentColor: '#5198C9',
   stepStrokeWidth: 2, //3
@@ -31,8 +32,8 @@ const customStyles = {
   stepStrokeUnFinishedColor: '#aaaaaa', //aaaaa
   separatorFinishedColor: '#4AB0F4',
   separatorUnFinishedColor: '#aaaaaa',
-  stepIndicatorFinishedColor: '#4AB0F4',//mavi
-  stepIndicatorUnFinishedColor: '#C7D2DB',//#8095A7
+  stepIndicatorFinishedColor: '#4AB0F4', //mavi
+  stepIndicatorUnFinishedColor: '#C7D2DB', //#8095A7
   stepIndicatorCurrentColor: 'white',
   stepIndicatorLabelFontSize: 17,
   currentStepIndicatorLabelFontSize: 20,
@@ -47,12 +48,17 @@ const customStyles = {
 function DetailsScreen({navigation}) {
   const [currentPosition, setCurrentPosition] = useState(0);
 
+  const image = {
+    uri: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwallpaperaccess.com%2F916&psig=AOvVaw0XMb2RGjL8XdrIJU1lJOZM&ust=1685032676199000&source=images&cd=vfe&ved=2ahUKEwj80oiCso7_AhU4XvEDHcjyAtoQjRx6BAgAEAw',
+  };
+  const localImage = require('./../img/success.png');
+
   const nextStep = () => {
-    setCurrentPosition(currentPosition+1);
+    setCurrentPosition(currentPosition + 1);
     if (currentPosition === 4) {
-      return alert("Your internship is finished !!!");
+      return alert('Your internship is finished !!!');
     }
-  }
+  };
 
   const data = [
     {
@@ -89,36 +95,40 @@ function DetailsScreen({navigation}) {
         <Text style={styles.headerText}>Internship Step</Text>
       </View>
 
+      <ImageBackground source={localImage}>
+        <View style={styles.indicatorContainer}>
+          <TouchableOpacity
+            style={styles.nextBtn}
+            onPress={() => alert('yüklenecek')}>
+            <Text style={styles.text}>Questions</Text>
+          </TouchableOpacity>
 
-      <View style={styles.indicatorContainer}> 
-        <TouchableOpacity style={styles.nextBtn} onPress={()=> alert("yüklenecek")}>
-          <Text style={styles.text}>Questions</Text>
-        </TouchableOpacity>
-
-        <StepIndicator
-          customStyles={customStyles}
-          currentPosition={currentPosition}
-          labels={labels}
-          direction="vertical"
-          renderLabel={({position, stepStatus, label, crntPosition}) => {
-            return (
-              <View style={styles.lblContainer}>
-                <Pressable  onPress={() => navigation.navigate('TimelineScreen')}>
-                <Text style={styles.lblText}>{data[position].label}</Text>
-                </Pressable>
-                <Text style={[styles.status, {marginTop: 5}]}>
-                  {data[position].status}
-                </Text>
-                <Text style={styles.status}>{data[position].dateTime}</Text>
-              </View>
-            );
-          }}
-        />
-        <TouchableOpacity style={styles.nextBtn} onPress={()=> nextStep()}>
-          <Text style={styles.text}>Next</Text>
-          <Icon name="check" color='#5198C9' size={28} paddingTop={12}/>
-        </TouchableOpacity>
-      </View>
+          <StepIndicator
+            customStyles={customStyles}
+            currentPosition={currentPosition}
+            labels={labels}
+            direction="vertical"
+            renderLabel={({position, stepStatus, label, crntPosition}) => {
+              return (
+                <View style={styles.lblContainer}>
+                  <Pressable
+                    onPress={() => navigation.navigate('TimelineScreen')}>
+                    <Text style={styles.lblText}>{data[position].label}</Text>
+                  </Pressable>
+                  <Text style={[styles.status, {marginTop: 8}]}>
+                    {data[position].status}
+                  </Text>
+                  <Text style={styles.status}>{data[position].dateTime}</Text>
+                </View>
+              );
+            }}
+          />
+          <TouchableOpacity style={styles.nextBtn} onPress={() => nextStep()}>
+            <Text style={styles.text}>Next</Text>
+            <Icon name="check" color="#5198C9" size={28} paddingTop={12} />
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -128,7 +138,7 @@ export default DetailsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E9EAEA', //1e1e1e,#8095A7
+    backgroundColor: 'white', //1e1e1e,#8095A7
   },
   header: {
     height: 55,
@@ -145,48 +155,43 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   indicatorContainer: {
-    height: height - 130,
-    width: width - 30,
-    padding: 20,
+    height: height - 110,
+    width: width - 20,
+    padding: 15,
     paddingTop: 0,
-    margin: 15,
-    elevation: 10,
-    borderRadius: 20,
-    backgroundColor: 'white',
+    margin: 10,
   },
   lblContainer: {
-    marginTop: 30,
+    marginTop: 18,
     padding: 10,
     paddingLeft: 15,
     width: width - 100,
   },
   lblText: {
-    fontSize: 21,
-    color: '#03131F', // black
+    fontSize: 23,
+    color: '#1B374E', // black
     fontWeight: 'bold',
   },
+  //açıklama yazıları, küçük yazılar
   status: {
     fontSize: 18,
-    color: 'gray',
-    
+    color: 'white',
   },
-  nextBtn:{
-    alignItems:'center',
-    justifyContent:'flex-end',
-    color:'#8095A7',
-    flexDirection:'row',
+  nextBtn: {
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    color: '#8095A7',
+    flexDirection: 'row',
   },
-  text:{
-    color:'#5198C9',
-    fontSize:18,
-    fontWeight:'bold',
-    paddingTop:12,
+  text: {
+    color: '#5198C9',
+    fontSize: 20,
+    fontWeight: 'bold',
+    paddingTop: 10,
   },
 });
-
-
 
 /*
 colors code 
 1E6392 = petrol mavisi
-*/ 
+*/

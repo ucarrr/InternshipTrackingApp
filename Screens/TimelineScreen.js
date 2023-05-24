@@ -14,15 +14,10 @@ const TimelineScreen = ({navigation}) => {
   const [val, setVal] = useState(1);
 
   const renderElement = () => {
-    
-    if (val === 1) {
       return <TwoColumnTimeLine />;
-    } 
+     
   };
 
-  const tabName = [
-    'Two Column TimeLine',
-  ];
 
   return (
     <SafeAreaView style={styles.container}>

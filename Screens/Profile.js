@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View,StatusBar } from 'react-native'
 import React from 'react'
 import {Title, Avatar, Caption, TouchableRipple} from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +11,10 @@ const Profile = () => {
   const navigation = useNavigation();
   return (
    <SafeAreaView style={styles.container}>
+    <StatusBar backgroundColor="#000" barStyle="light-content" />
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Profile Page</Text>
+      </View>
     <View style={styles.userInfoSection}>
       <View style={{flexDirection:'row', marginTop:15}}>
         <Avatar.Image
@@ -113,7 +117,8 @@ const styles = StyleSheet.create({
 
   title:{
     fontSize:25,
-    fontWeight:'bold',    
+    fontWeight:'bold',
+    color:'#1B374E',    
   },
 
   caption:{
@@ -125,6 +130,7 @@ const styles = StyleSheet.create({
   title2:{
     fontSize:22,
     fontWeight:'bold',
+    color:'#1B374E',
   },
 
   caption2:{
@@ -169,5 +175,19 @@ const styles = StyleSheet.create({
     fontWeight:'600',
     fontSize:16,
     lineHeight:26
+  },
+  header: {
+    height: 55,
+    padding: 10,
+    width: '100%',
+    backgroundColor: 'white', //000
+    elevation: 10,
+    justifyContent:'center',
+    alignItems: 'center',
+  },
+  headerText: {
+    color: '#5198C9', //ff3232
+    fontSize: 22,
+    fontWeight: 'bold',
   },
 });
