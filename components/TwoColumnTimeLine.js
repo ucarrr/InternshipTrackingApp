@@ -12,7 +12,7 @@ const TwoColumnTmeLine = () => {
       description:
         'Lorem Ipsum is simply dummy text of the printing.',
         lineColor: '#5198C9',
-      icon: require('../img/place_holder.png'),
+      icon: require('../img/a.jpg'),
       
     },
     {
@@ -21,7 +21,7 @@ const TwoColumnTmeLine = () => {
       lineColor: '#5198C9',
       description:
         'Lorem Ipsum is simply dummy text of the printing.',
-      icon: require('../img/place_holder.png'),
+      icon: require('../img/a.jpg'),
       imageUrl:
         'https://capital-placement.b-cdn.net/wp-content/uploads/2019/10/2787860-e1571404666218.jpg.webp',
     },
@@ -29,7 +29,7 @@ const TwoColumnTmeLine = () => {
       time: 'Third day ',
       title: 'Event 3',
       lineColor: '#5198C9',
-      icon: require('../img/place_holder.png'),
+      icon: require('../img/a.jpg'),
     },
     {
       time: '4th day',
@@ -37,7 +37,7 @@ const TwoColumnTmeLine = () => {
       description:
         'Lorem Ipsum is simply dummy text of the printing.',
         lineColor: '#5198C9',
-      icon: require('../img/place_holder.png'),
+      icon: require('../img/a.jpg'),
       imageUrl:
         'https://capital-placement.b-cdn.net/wp-content/uploads/2019/10/2787860-e1571404666218.jpg.webp',
     },
@@ -47,7 +47,7 @@ const TwoColumnTmeLine = () => {
       lineColor: '#5198C9',
       description:
         'Lorem Ipsum is simply dummy text of the printing.',
-      icon: require('../img/place_holder.png'),
+      icon: require('../img/a.jpg'),
       imageUrl:
         'https://capital-placement.b-cdn.net/wp-content/uploads/2019/10/2787860-e1571404666218.jpg.webp',
     },
@@ -64,12 +64,12 @@ const TwoColumnTmeLine = () => {
         timeContainerStyle={{minWidth: 52, marginTop: 0}}
         timeStyle={{
           textAlign: 'center',
-          backgroundColor: '#5198C9',
+          backgroundColor: '#1B374E',
           color: 'white',
           padding: 5,
           borderRadius: 13,
         }}
-        descriptionStyle={{color: 'gray'}}
+        descriptionStyle={{color: 'grey'}}
         options={{
           style: {paddingTop: 5},
         }}//alert(`${item.title} at ${item.time}`)

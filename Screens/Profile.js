@@ -35,17 +35,17 @@ const Profile = () => {
 
     <View style={styles.userInfoSection}>
       <View style={styles.row}>
-        <Icon name="map-marker-radius" color='#5198C9' size={22}/>
+        <Icon name="map-marker-radius" color='#1B374E' size={22}/>
         <Text style={{color:'#4F5458', marginLeft:20, fontSize:17}}>Türkiye, Antalya</Text>
       </View>
 
       <View style={styles.row}>
-        <Icon name="phone" color='#5198C9' size={22}/>
+        <Icon name="phone" color='#1B374E' size={22}/>
         <Text style={{color:'#4F5458', marginLeft:20, fontSize:17}}>+90 555 555 55 55</Text>
       </View>
 
       <View style={styles.row}>
-        <Icon name="email" color='#5198C9' size={22}/>
+        <Icon name="email" color='#1B374E' size={22}/>
         <Text style={{color:'#4F5458', marginLeft:20, fontSize:17}}>ece@gmail.com</Text>
       </View>
     </View>

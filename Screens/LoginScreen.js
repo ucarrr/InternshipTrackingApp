@@ -46,7 +46,7 @@ const LoginScreen = ({navigation}) => {
       showsVerticalScrollIndicator={false}>
       {/* Brand View */}
       <ImageBackground
-        source={require('../Assets/texture_surface_dark.jpg')}
+        source={require('../Assets/texture_spots_blue.jpg')}
         style={{
           flex: 1,
         }}>
@@ -66,7 +66,7 @@ const LoginScreen = ({navigation}) => {
         <View style={styles.bottomView}>
           {/* Welcome View */}
           <View style={{padding: 40, flex: 1}}>
-            <Text style={{color: '#000080', fontSize: 35}}>Welcome</Text>
+            <Text style={{color: '#5198C9', fontSize: 35}}>Welcome</Text>
 
             <View
               style={{
@@ -99,7 +99,6 @@ const LoginScreen = ({navigation}) => {
                   name="checkmark"
                   style={styles.checkmarkIcon}
                   size={30}
-                  color="#4632A1"
                 />
               </View>
 
@@ -114,7 +113,7 @@ const LoginScreen = ({navigation}) => {
                     name={eyeIcon}
                     style={styles.checkmarkIcon}
                     size={30}
-                    color="#4632A1"
+                //color 4632A1
                   />
                 </Pressable>
               </View>
@@ -131,6 +130,7 @@ const LoginScreen = ({navigation}) => {
                 uncheckedIcon="checkbox-blank-outline"
                 checkedColor="blue"
                 title="Remember Me"
+              
               />
 
               <TouchableOpacity onPress={buttonPass}>
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
 
   checkmarkIcon: {
     padding: 10,
-    color:'#000080'
+    color:'#5198C9' //000080, 4632A1 lacivert
   },
   forgotSection: {
     height: 60,
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   button: {
     height: 40,
     borderRadius: 50,
-    backgroundColor: '#000080',
+    backgroundColor: '#5198C9', //#000080 lacivert
     textAlign: 'center',
     alignSelf: 'center',
     width: Dimensions.get('window').width / 1.5,

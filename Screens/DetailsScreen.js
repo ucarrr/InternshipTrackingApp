@@ -157,12 +157,12 @@ const styles = StyleSheet.create({
   indicatorContainer: {
     height: height - 110,
     width: width - 20,
-    padding: 15,
+    padding: 18,
     paddingTop: 0,
     margin: 10,
   },
   lblContainer: {
-    marginTop: 18,
+    marginTop: 10,
     padding: 10,
     paddingLeft: 15,
     width: width - 100,
