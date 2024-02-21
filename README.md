@@ -11,8 +11,8 @@ Internship Tracking App
         <P>npm install @rneui/themed @rneui/base --> https://github.com/react-native-elements/react-native-elements</p>
         <P>npm i @expo/vector-icons --> https://www.npmjs.com/package/@expo/vector-icons</p>
         <P></p>
-        <P></p>
-        <P></p>
+        <P>npx react-native start</p>
+        <P>npx react-native run-android</p>
 
 
         
