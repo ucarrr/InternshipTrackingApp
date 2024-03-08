@@ -79,4 +79,8 @@ To learn more about React Native, take a look at the following resources:
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
 
 **Uses Library**
-# https://github.com/crazycodeboy/react-native-splash-screen
+# https://reactnativepaper.com/
+-  Additionaly for iOS platform there is a requirement to link the native parts of the library:
+- npx pod-install
+# https://github.com/oblador/react-native-vector-icons
+- Navigate to node_modules/react-native-vector-icons and drag the Fonts folder (or select specific fonts) into your Xcode project.
