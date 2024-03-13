@@ -84,3 +84,7 @@ To learn more about React Native, take a look at the following resources:
 - npx pod-install
 # https://github.com/oblador/react-native-vector-icons
 - Navigate to node_modules/react-native-vector-icons and drag the Fonts folder (or select specific fonts) into your Xcode project.
+- 
+# https://github.com/24ark/react-native-step-indicator
+- npm install react-native-step-indicator --save
+# npm i react-native-swiper --save
