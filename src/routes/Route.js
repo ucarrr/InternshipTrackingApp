@@ -24,27 +24,30 @@ const Stack = createNativeStackNavigator();
 export default function Route({navigation}) {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{
-            headerShown: false,
-          }}>
+      <Stack.Navigator
+        initialRouteName="SplashScreen"
+        screenOptions={{
+          headerShown: false,
+        }}>
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen
-          name="SplashScreen"
-          component={SplashScreen}
-          
+          options={{headerShown: false}}
+          name="HomeScreen"
+          component={HomeScreen}
         />
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen
           options={{headerShown: false}}
           name="Home"
           component={MyTabs}
         />
-        <Stack.Screen
+        {/*  <Stack.Screen
           options={{headerShown: false}}
           name="SignInScreen"
           component={TopTabfunc}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -55,17 +58,18 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator
+       
       initialRouteName="HomeScreen"
       screenOptions={{
         tabBarActiveTintColor: '#3366ff',
       }}>
-      <Tab.Screen name="HomeScreen" component={HomeScreen} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen  options={{headerShown: false}} name="HomeScreen" component={HomeScreen} />
+      <Tab.Screen  options={{headerShown: false}} name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 }
 
-const TopTab = createMaterialTopTabNavigator();
+/* const TopTab = createMaterialTopTabNavigator();
 
 function TopTabfunc() {
   return (
@@ -100,5 +104,5 @@ function TopTabfunc() {
       />
     </TopTab.Navigator>
   );
-}
+} */
 const styles = StyleSheet.create({});

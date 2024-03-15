@@ -1,9 +1,22 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, TouchableHighlight} from 'react-native';
-import StepIndicator from 'react-native-step-indicator'; 
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  TouchableHighlight,
+} from 'react-native';
+import StepIndicator from 'react-native-step-indicator';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const labels = ["Staj için uygun işyeri bulunur","Zorunlu staj formu öğrenci tarafından doldurulur","Staja başlanır","Staj raporu","Turnitin orijinallik raporu alınır","Teslim"];
+const labels = [
+  'Staj için uygun işyeri bulunur',
+  'Zorunlu staj formu öğrenci tarafından doldurulur',
+  'Staja başlanır',
+  'Staj raporu',
+  'Turnitin orijinallik raporu alınır',
+  'Teslim',
+];
 
 const indicatorStyles = {
   stepIndicatorSize: 30,
@@ -83,13 +96,11 @@ export default function VerticalStep() {
 
   const onStepPress = (position: number) => {
     setCurrentPage(position);
-    
   };
 
   const renderStepIndicator = (params: any) => (
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
-
 
   const handleLabelPress = (position: number) => {
     console.log(`Label ${position + 1} pressed`);
@@ -110,7 +121,10 @@ export default function VerticalStep() {
               key={index}
               onPress={() => handleLabelPress(index)}
               underlayColor="#dddddd"
-              style={[styles.labelContainer, hovered && styles.hoveredLabelContainer]}
+              style={[
+                styles.labelContainer,
+                hovered && styles.hoveredLabelContainer,
+              ]}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}>
               <Text style={styles.label}>{label}</Text>
@@ -131,9 +145,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stepIndicator: {
-    marginHorizontal:'auto',
-    marginVertical: 50,
-     
+    width:'100%', 
+    justifyContent: 'center',
+    alignItems: 'center',
+   
   },
   labelContainer: {
     marginBottom: 10,
@@ -147,6 +162,6 @@ const styles = StyleSheet.create({
   },
   label: {
     color: '#0063A9',
-     
+    fontWeight:'bold',
   },
 });
