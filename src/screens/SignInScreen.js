@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   buttonBox: {
+    
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20,
@@ -178,6 +179,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   container2: {
+    marginHorizontal: 'auto',
     marginTop: 10,
     width: '80%',
   },
@@ -185,6 +187,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#fff',
     margin: 12,
+    marginHorizontal: 'auto',
   },
   button: {
     width: '100%',
@@ -196,12 +199,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
     height: 50,
+    marginHorizontal: 'auto',
   },
   buttonTextFont: {
     fontSize: 24,
     color: '#fff',
   },
   checkboxContainer: {
+    marginHorizontal: 'auto',
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 5,
@@ -211,6 +216,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   forgotPasswordButton: {
+    marginHorizontal: 'auto',
     alignItems: 'center',
     marginTop: 10,
   },
