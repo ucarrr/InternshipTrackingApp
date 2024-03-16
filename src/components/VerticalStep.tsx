@@ -8,20 +8,27 @@ import {
 } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {Dimensions} from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+const widthN = windowWidth * 0.7;
+const width = windowWidth * 1.0;
 
 const labels = [
   'Staj için uygun işyeri bulunur',
-  'Zorunlu staj formu öğrenci tarafından doldurulur',
+  'Zorunlu staj formu doldurulur',
   'Staja başlanır',
   'Staj raporu',
   'Turnitin orijinallik raporu alınır',
   'Teslim',
 ];
 
+ 
+
 const indicatorStyles = {
   stepIndicatorSize: 30,
   currentStepIndicatorSize: 40,
-  separatorStrokeWidth: 3,
+  separatorStrokeWidth: 1,
   currentStepStrokeWidth: 5,
   stepStrokeCurrentColor: '#0063A9', // Şu anki adımın çizgi rengi
   stepStrokeWidth: 3,
@@ -34,7 +41,7 @@ const indicatorStyles = {
   stepIndicatorUnFinishedColor: '#ffffff', // Tamamlanmamış adım göstergesinin rengi
   stepIndicatorCurrentColor: '#ffffff', // Şu anki adım göstergesinin rengi
   stepIndicatorLabelFontSize: 20, // Adım göstergesi etiketlerinin font boyutu
-  currentStepIndicatorLabelFontSize: 20, // Şu anki adım göstergesi etiketinin font boyutu
+  currentStepIndicatorLabelFontSize: 50, // Şu anki adım göstergesi etiketinin font boyutu
   stepIndicatorLabelCurrentColor: '#0063A9', // Şu anki adım göstergesi etiketinin rengi
   stepIndicatorLabelFinishedColor: '#ffffff', // Tamamlanmış adım göstergesi etiketinin rengi
   stepIndicatorLabelUnFinishedColor: '#aaaaaa', // Tamamlanmamış adım göstergesi etiketinin rengi
@@ -86,16 +93,15 @@ export default function VerticalStep() {
   const [currentPage, setCurrentPage] = useState(0);
   const [hovered, setHovered] = useState(false);
 
-  const handleMouseEnter = () => {
-    setHovered(true);
-  };
+  const [isCompleted, setIsCompleted] = useState(false);
 
-  const handleMouseLeave = () => {
-    setHovered(false);
-  };
+/*   const handleItemCompletion = () => {
+    setIsCompleted(true);
+  }; */
 
   const onStepPress = (position: number) => {
     setCurrentPage(position);
+    setIsCompleted(true);
   };
 
   const renderStepIndicator = (params: any) => (
@@ -117,18 +123,22 @@ export default function VerticalStep() {
           onPress={onStepPress}
           renderStepIndicator={renderStepIndicator}
           labels={labels.map((label, index) => (
-            <TouchableHighlight
-              key={index}
-              onPress={() => handleLabelPress(index)}
-              underlayColor="#dddddd"
-              style={[
-                styles.labelContainer,
-                hovered && styles.hoveredLabelContainer,
-              ]}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}>
-              <Text style={styles.label}>{label}</Text>
-            </TouchableHighlight>
+            <View style={styles.content}>
+              <Text style={styles.labelIndex}>Step {index + 1}</Text>
+              <TouchableHighlight
+                activeOpacity={0.6}
+                underlayColor="'rgb(210, 230, 255)' : 'white',"
+                key={index}
+                onPress={() => handleLabelPress(index)}
+                style={[styles.labelContainer]}>
+                <Text style={styles.label}>{label}</Text>
+              </TouchableHighlight>
+              {isCompleted ? (
+                <Text>Öğe tamamlandı</Text>
+              ) : (
+                <Text>Öğe devam ediyor</Text>
+              )}
+            </View>
           ))}
         />
       </View>
@@ -145,23 +155,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stepIndicator: {
-    width:'100%', 
+    width: width,
     justifyContent: 'center',
     alignItems: 'center',
-   
+  },
+  content: {
+    margin: 5,
+    padding: 10,
+    width: widthN,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    height: 100,
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#0098fe',
   },
   labelContainer: {
+    width: '80%',
     marginBottom: 10,
-    textAlign: 'center',
     padding: 10,
-    backgroundColor: '#ffffff',
     borderRadius: 5,
   },
-  hoveredLabelContainer: {
-    backgroundColor: '#dddddd',
+  labelIndex: {
+    textAlign: 'left',
+    color: 'black',
   },
   label: {
+    textAlign: 'left',
     color: '#0063A9',
-    fontWeight:'bold',
+    fontSize: 17,
+    fontWeight: '500',
   },
 });

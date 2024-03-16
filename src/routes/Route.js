@@ -10,6 +10,9 @@ import Profile from '../screens/Profile';
 
 import SplashScreen from '../screens/SplashScreen';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+
 import 'react-native-gesture-handler';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -58,13 +61,44 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator
-       
       initialRouteName="HomeScreen"
-      screenOptions={{
-        tabBarActiveTintColor: '#3366ff',
-      }}>
-      <Tab.Screen  options={{headerShown: false}} name="HomeScreen" component={HomeScreen} />
-      <Tab.Screen  options={{headerShown: false}} name="Profile" component={Profile} />
+      screenOptions={({route}) => ({
+        tabBarLabelStyle: {
+          fontSize: 14, // Yazı boyutu 
+        },
+        tabBarIcon: ({focused, size, color}) => {
+          let iconName;
+          if (route.name === 'HomeScreen') {
+            // <FontAwesome5 name={'home'} size={10} color="black" />;
+            iconName = 'home';
+            color = focused ? '#334EFF' : '#EEEEEE';
+            size = 18;
+          } else if (route.name === 'Profile') {
+            iconName = 'account';
+            size = 18;
+            color = focused ? '#334EFF' : '#EEEEEE';
+          } else if (route.name === 'Profile') {
+            iconName = 'account';
+            size = 18;
+            color = focused ? '#334EFF' : '#EEEEEE';
+          }
+          return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+        },
+      })}
+      
+      >
+      <Tab.Screen
+        options={{headerShown: false}}
+        name="HomeScreen"
+        component={HomeScreen}
+        
+      />
+      <Tab.Screen
+        options={{headerShown: false}}
+        name="Profile"
+        component={Profile}
+       
+      />
     </Tab.Navigator>
   );
 }
