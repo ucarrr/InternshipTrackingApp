@@ -5,13 +5,17 @@ import {
   Text,
   TouchableOpacity,
   TouchableHighlight,
+  Pressable,
 } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Dimensions} from 'react-native';
+import CompletedButton from './CompletedButton';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const windowWidth = Dimensions.get('window').width;
-const widthN = windowWidth * 0.7;
+const widthContent = windowWidth * 0.7;
+const widthContent2 = windowWidth * 0.5;
 const width = windowWidth * 1.0;
 
 const labels = [
@@ -23,7 +27,18 @@ const labels = [
   'Teslim',
 ];
 
- 
+const labels2 = [
+  {text: 'Staj için uygun işyeri bulunur', completed: false, uncompleted: true},
+  {text: 'Zorunlu staj formu doldurulur', completed: false, uncompleted: true},
+  {text: 'Staja başlanır', completed: false, uncompleted: true},
+  {text: 'Staj raporu', completed: false, uncompleted: true},
+  {
+    text: 'Turnitin orijinallik raporu alınır',
+    completed: false,
+    uncompleted: true,
+  },
+  {text: 'Teslim', completed: false},
+];
 
 const indicatorStyles = {
   stepIndicatorSize: 30,
@@ -61,31 +76,9 @@ const getStepIndicatorIconConfig = ({
     color: stepStatus === 'finished' ? '#ffffff' : '#0063A9',
     size: 15,
   };
-  switch (position) {
-    case 0: {
-      iconConfig.name = 'check';
-      break;
-    }
-    case 1: {
-      iconConfig.name = 'check';
-      break;
-    }
-    case 2: {
-      iconConfig.name = 'check';
-      break;
-    }
-    case 3: {
-      iconConfig.name = 'check';
-      break;
-    }
-    case 4: {
-      iconConfig.name = 'check';
-      break;
-    }
-    default: {
-      break;
-    }
-  }
+
+  iconConfig.name = 'check';
+
   return iconConfig;
 };
 
@@ -94,14 +87,20 @@ export default function VerticalStep() {
   const [hovered, setHovered] = useState(false);
 
   const [isCompleted, setIsCompleted] = useState(false);
+  const [completedSteps, setCompletedSteps] = useState(
+    Array(labels.length).fill(false),
+  );
 
-/*   const handleItemCompletion = () => {
+  /*   const handleItemCompletion = () => {
     setIsCompleted(true);
   }; */
 
   const onStepPress = (position: number) => {
     setCurrentPage(position);
     setIsCompleted(true);
+    const updatedCompletedSteps = [...completedSteps]; // Mevcut durumun bir kopyasını oluşturun
+    updatedCompletedSteps[position] = true; // Seçilen pozisyonu true olarak ayarlayın
+    setCompletedSteps(updatedCompletedSteps); // Güncellenmiş durumu ayarlayın
   };
 
   const renderStepIndicator = (params: any) => (
@@ -122,22 +121,37 @@ export default function VerticalStep() {
           currentPosition={currentPage}
           onPress={onStepPress}
           renderStepIndicator={renderStepIndicator}
-          labels={labels.map((label, index) => (
+          labels={labels2.map((item, index) => (
             <View style={styles.content}>
-              <Text style={styles.labelIndex}>Step {index + 1}</Text>
-              <TouchableHighlight
-                activeOpacity={0.6}
-                underlayColor="'rgb(210, 230, 255)' : 'white',"
-                key={index}
-                onPress={() => handleLabelPress(index)}
-                style={[styles.labelContainer]}>
-                <Text style={styles.label}>{label}</Text>
-              </TouchableHighlight>
-              {isCompleted ? (
+              <View style={styles.content2}>
+                <Text style={styles.labelIndex}>Step {index + 1}</Text>
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor="'rgb(210, 230, 255)' : 'white',"
+                  key={index}
+                  onPress={() => handleLabelPress(index)}
+                  style={[styles.labelContainer]}>
+                  <Text style={styles.label}>{item.text}</Text>
+                </TouchableHighlight>
+
+                {/*  {completedSteps.length > index && completedSteps[index] ? (
                 <Text>Öğe tamamlandı</Text>
               ) : (
                 <Text>Öğe devam ediyor</Text>
-              )}
+              )} */}
+                {/*  {currentPage === index ? (
+                <Text>Öğe devam ediyor</Text>
+              ) : currentPage > index ? (
+                <Text>Öğe tamamlandı</Text>
+              ) : null} */}
+              </View>
+              <Pressable onPress={() => handleLabelPress(index)}>
+                <MaterialCommunityIcons
+                  name={'chevron-right'}
+                  size={20}
+                  color={'blue'}
+                />
+              </Pressable>
             </View>
           ))}
         />
@@ -162,14 +176,21 @@ const styles = StyleSheet.create({
   content: {
     margin: 5,
     padding: 10,
-    width: widthN,
+    width: widthContent,
     alignItems: 'center',
     justifyContent: 'space-around',
+    flexDirection: 'row',
     height: 100,
     backgroundColor: '#fff',
     borderWidth: 2,
     borderRadius: 10,
     borderColor: '#0098fe',
+  },
+  content2: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    width: widthContent2,
   },
   labelContainer: {
     width: '80%',
@@ -178,13 +199,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   labelIndex: {
-    textAlign: 'left',
+    textAlign: 'center',
     color: 'black',
   },
   label: {
     textAlign: 'left',
     color: '#0063A9',
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: '500',
   },
 });
