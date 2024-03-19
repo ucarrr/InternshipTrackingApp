@@ -8,6 +8,8 @@ import SignUpScreen from '../screens/SignUpScreen';
 
 import Profile from '../screens/Profile';
 
+import StepDetailScreen from '../screens/StepDetailScreen';
+
 import SplashScreen from '../screens/SplashScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -35,6 +37,7 @@ export default function Route({navigation}) {
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="StepDetailScreen" component={StepDetailScreen} />
         <Stack.Screen
           options={{headerShown: false}}
           name="HomeScreen"

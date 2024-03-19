@@ -6,12 +6,14 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import StepIndicator from 'react-native-step-indicator';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Dimensions} from 'react-native';
 import CompletedButton from './CompletedButton';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useNavigation} from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 const widthContent = windowWidth * 0.7;
@@ -91,6 +93,8 @@ export default function VerticalStep() {
     Array(labels.length).fill(false),
   );
 
+  const navigation = useNavigation();
+
   /*   const handleItemCompletion = () => {
     setIsCompleted(true);
   }; */
@@ -108,60 +112,66 @@ export default function VerticalStep() {
   );
 
   const handleLabelPress = (position: number) => {
+    navigation.navigate('StepDetailScreen', {stepIndex: position});
     console.log(`Label ${position + 1} pressed`);
     // Burada label tıklandığında gerçekleştirilecek işlemler yer alacak
   };
   return (
     <View style={styles.container}>
-      <View style={styles.stepIndicator}>
-        <StepIndicator
-          customStyles={indicatorStyles}
-          stepCount={6}
-          direction="vertical"
-          currentPosition={currentPage}
-          onPress={onStepPress}
-          renderStepIndicator={renderStepIndicator}
-          labels={labels2.map((item, index) => (
-            <View style={styles.content}>
-              <View style={styles.content2}>
-                <Text style={styles.labelIndex}>Step {index + 1}</Text>
-                <TouchableHighlight
-                  activeOpacity={0.6}
-                  underlayColor="'rgb(210, 230, 255)' : 'white',"
-                  key={index}
-                  onPress={() => handleLabelPress(index)}
-                  style={[styles.labelContainer]}>
-                  <Text style={styles.label}>{item.text}</Text>
-                </TouchableHighlight>
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row',}}>
+        <View style={styles.stepIndicator}>
+          <StepIndicator
+            customStyles={indicatorStyles}
+            stepCount={6}
+            direction="vertical"
+            currentPosition={currentPage}
+            onPress={onStepPress}
+            renderStepIndicator={renderStepIndicator}
+            labels={labels2.map((item, index) => (
+              <View style={styles.content}>
+                <View style={styles.content2}>
+                  <Text style={styles.labelIndex}>Step {index + 1}</Text>
+                  <TouchableHighlight
+                    activeOpacity={0.6}
+                    underlayColor="'rgb(210, 230, 255)' : 'white',"
+                    key={index}
+                    onPress={() => handleLabelPress(index)}
+                    style={[styles.labelContainer]}>
+                    <Text style={styles.label}>{item.text}</Text>
+                  </TouchableHighlight>
 
-                {/*  {completedSteps.length > index && completedSteps[index] ? (
+                  {/*  {completedSteps.length > index && completedSteps[index] ? (
                 <Text>Öğe tamamlandı</Text>
               ) : (
                 <Text>Öğe devam ediyor</Text>
               )} */}
-                {/*  {currentPage === index ? (
+                  {/*  {currentPage === index ? (
                 <Text>Öğe devam ediyor</Text>
               ) : currentPage > index ? (
                 <Text>Öğe tamamlandı</Text>
               ) : null} */}
+                </View>
+                <Pressable onPress={() => handleLabelPress(index)}>
+                  <MaterialCommunityIcons
+                    name={'chevron-right'}
+                    size={20}
+                    color={'blue'}
+                  />
+                </Pressable>
               </View>
-              <Pressable onPress={() => handleLabelPress(index)}>
-                <MaterialCommunityIcons
-                  name={'chevron-right'}
-                  size={20}
-                  color={'blue'}
-                />
-              </Pressable>
-            </View>
-          ))}
-        />
-      </View>
+            ))}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    padding: 15,
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#ffffff',
