@@ -88,3 +88,5 @@ To learn more about React Native, take a look at the following resources:
 # https://github.com/24ark/react-native-step-indicator
 - npm install react-native-step-indicator --save
 # npm i react-native-swiper --save
+
+# https://github.com/WrathChaos/react-native-bouncy-checkbox
