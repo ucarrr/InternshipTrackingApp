@@ -109,13 +109,20 @@ const styles = StyleSheet.create({
     width: windowWidth,
   },
   item: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
+    backgroundColor: '#fff',    
     borderRadius: 20,
     borderColor: '#0063A9',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   title: {
     fontSize: 25,

@@ -120,7 +120,12 @@ export default function VerticalStep() {
     <View style={styles.container}>
       <ScrollView
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row',}}>
+        contentContainerStyle={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'row',
+        }}>
         <View style={styles.stepIndicator}>
           <StepIndicator
             customStyles={indicatorStyles}
@@ -174,7 +179,7 @@ const styles = StyleSheet.create({
     padding: 15,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#f2f2f2',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -192,9 +197,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 100,
     backgroundColor: '#fff',
-    borderWidth: 2,
     borderRadius: 10,
     borderColor: '#0098fe',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   content2: {
     alignItems: 'center',
@@ -214,7 +226,7 @@ const styles = StyleSheet.create({
   },
   label: {
     textAlign: 'left',
-    color: '#0063A9',
+    color: '#007ad1',//0080db
     fontSize: 15,
     fontWeight: '500',
   },

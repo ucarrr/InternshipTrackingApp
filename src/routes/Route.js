@@ -4,13 +4,10 @@ import React from 'react';
 import HomeScreen from '../screens/HomeScreen';
 
 import SignInScreen from '../screens/SignInScreen';
-import SignUpScreen from '../screens/SignUpScreen';
-
 import Profile from '../screens/Profile';
-
 import StepDetailScreen from '../screens/StepDetailScreen';
-
 import SplashScreen from '../screens/SplashScreen';
+import CalenderScreen from '../screens/CalenderScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -35,8 +32,9 @@ export default function Route({navigation}) {
           headerShown: false,
         }}>
         <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
+         
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="CalenderScreen" component={CalenderScreen} />
         <Stack.Screen name="StepDetailScreen" component={StepDetailScreen} />
         <Stack.Screen
           options={{headerShown: false}}
@@ -67,7 +65,7 @@ function MyTabs() {
       initialRouteName="HomeScreen"
       screenOptions={({route}) => ({
         tabBarLabelStyle: {
-          fontSize: 14, // Yazı boyutu 
+          fontSize: 17, // Yazı boyutu 
         },
         tabBarIcon: ({focused, size, color}) => {
           let iconName;
@@ -75,14 +73,14 @@ function MyTabs() {
             // <FontAwesome5 name={'home'} size={10} color="black" />;
             iconName = 'home';
             color = focused ? '#334EFF' : '#EEEEEE';
-            size = 18;
-          } else if (route.name === 'Profile') {
-            iconName = 'account';
-            size = 18;
+            size = 25;
+          } else if (route.name === 'Calender') {
+            iconName = 'calendar';
+            size = 25;
             color = focused ? '#334EFF' : '#EEEEEE';
           } else if (route.name === 'Profile') {
             iconName = 'account';
-            size = 18;
+            size = 25;
             color = focused ? '#334EFF' : '#EEEEEE';
           }
           return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
@@ -95,6 +93,12 @@ function MyTabs() {
         name="HomeScreen"
         component={HomeScreen}
         
+      />
+      <Tab.Screen
+        options={{headerShown: false}}
+        name="Calender"
+        component={CalenderScreen}
+       
       />
       <Tab.Screen
         options={{headerShown: false}}
