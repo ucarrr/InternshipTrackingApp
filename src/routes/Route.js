@@ -8,6 +8,7 @@ import Profile from '../screens/Profile';
 import StepDetailScreen from '../screens/StepDetailScreen';
 import SplashScreen from '../screens/SplashScreen';
 import CalenderScreen from '../screens/CalenderScreen';
+import Calender from '../components/Calender';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -35,6 +36,7 @@ export default function Route({navigation}) {
          
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="CalenderScreen" component={CalenderScreen} />
+        <Stack.Screen name="Calender" component={Calender} />
         <Stack.Screen name="StepDetailScreen" component={StepDetailScreen} />
         <Stack.Screen
           options={{headerShown: false}}
