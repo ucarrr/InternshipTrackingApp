@@ -4,16 +4,18 @@ import {Title, Avatar, Caption, TouchableRipple} from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon1 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
+//import { useNavigation } from '@react-navigation/native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import {Dimensions} from 'react-native';
  
-const Profile = () => {
-  const navigation = useNavigation();
+const windowWidth = Dimensions.get('window').width;
+
+export default function Profile({navigation}) {
   return (
    <SafeAreaView style={styles.container}>
     <StatusBar backgroundColor="#000" barStyle="light-content" />
     
-    <View style={styles.userInfoSection}>
+    <View style={[styles.userInfoSection, { width: windowWidth * 0.9 }]}>
       <View style={{flexDirection:'row', marginTop:15}}>
         <Avatar.Image
         source={require('../assets/akdeniz.png')}
@@ -42,7 +44,7 @@ const Profile = () => {
 
       <View style={styles.row}>
         <Icon name="email" color='#0063A9' size={22}/>
-        <Text style={{color:'#4F5458', marginLeft:20, fontSize:17}}>ece@gmail.com</Text>
+        <Text style={{color:'#4F5458', marginLeft:20, fontSize:17}}>ucar@gmail.com</Text>
       </View>
     </View>
 
@@ -51,7 +53,7 @@ const Profile = () => {
           size={180}
           width={15}
           fill={50}
-          tintColor="#0063A9"
+          tintColor="#DB6D2D"
           backgroundColor="#fff"
           rotation={0}
           lineCap="round"
@@ -62,7 +64,7 @@ const Profile = () => {
           size={180}
           width={15}
           fill={75}
-          tintColor="#0063A9"
+          tintColor="#DB6D2D"
           backgroundColor="#fff"
           rotation={0}
           lineCap="round"
@@ -100,9 +102,7 @@ const Profile = () => {
 
    </SafeAreaView>
   );
-};
-
-export default Profile
+}
 
 const styles = StyleSheet.create({
   container:{
@@ -114,6 +114,8 @@ const styles = StyleSheet.create({
   userInfoSection: {
     paddingHorizontal:30,
     marginBottom:25,
+    
+    
   },
 
   title:{

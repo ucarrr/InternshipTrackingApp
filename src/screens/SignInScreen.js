@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import {Checkbox, TextInput} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 export default function SignInScreen({navigation}) {
   const [showLogin, setShowLogin] = useState(true);

@@ -185,6 +185,7 @@ const Calendar = () => {
   return (
     <>
       <Agenda
+        maxDate="2025-12-31"
         testID={testIDs.agenda.CONTAINER}
         items={items}
         loadItemsForMonth={loadItems}
