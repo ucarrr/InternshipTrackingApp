@@ -9,7 +9,13 @@ import {
   Pressable,
   Dimensions,
 } from 'react-native';
-import {Modal, Portal, Text, PaperProvider,IconButton} from 'react-native-paper';
+import {
+  Modal,
+  Portal,
+  Text,
+  PaperProvider,
+  IconButton,
+} from 'react-native-paper';
 import {
   Agenda,
   DateData,
@@ -17,9 +23,8 @@ import {
   AgendaSchedule,
   LocaleConfig,
 } from 'react-native-calendars';
-import testIDs from './testIDs';
 
- 
+import testIDs from './testIDs';
 
 const windowWidth = Dimensions.get('window').width;
 const widthContent = windowWidth * 0.8;
@@ -69,6 +74,7 @@ LocaleConfig.defaultLocale = 'tr';
 
 const Calendar = () => {
   const [items, setItems] = useState<AgendaSchedule>({});
+  const [itemsText, setitemsText] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentDate, setCurrentDate] = useState('');
 
@@ -76,6 +82,7 @@ const Calendar = () => {
 
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
+
   const containerStyle = {backgroundColor: 'white', padding: 20};
 
   const toggleModal = () => {
@@ -111,7 +118,6 @@ const Calendar = () => {
     setCurrentDate(day.dateString);
   };
 
-
   const getCurrentDate = () => {
     const date = new Date();
     const year = date.getFullYear();
@@ -127,40 +133,31 @@ const Calendar = () => {
   };
 
   const loadItems = (day: DateData) => {
-    setTimeout(() => {
-      const newItems: AgendaSchedule = {};
-      for (let i = -15; i < 85; i++) {
-        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = timeToString(time);
-
-        /* if (!newItems[strTime]) {
-          newItems[strTime] = [];
-
-          const numItems = Math.floor(Math.random() * 3 + 1);
-          for (let j = 0; j < numItems; j++) {
-            newItems[strTime].push({
-              name: 'Item for ' + strTime + ' #' + j,
-              height: Math.max(50, Math.floor(Math.random() * 150)),
-              day: strTime,
-            });
-          }
-        } */
-      }
-
-      //  setItems(newItems);
-    }, 1000);
+    setTimeout(() => {}, 1000);
   };
 
-  const renderItem = (reservation: AgendaEntry, isFirst: boolean) => {
+  const onChangeText = (text: string, entry: AgendaEntry) => {
+    const updatedItems: AgendaSchedule = {...items};
+    updatedItems[currentDate][items[currentDate].indexOf(entry)].name = text;
+    setItems(updatedItems);
+  };
+
+  const renderItem = (entry: AgendaEntry, isFirst: boolean) => {
     const fontSize = isFirst ? 16 : 14;
     const color = isFirst ? 'black' : '#43515c';
+    const index: number = 0;
 
     return (
       <TouchableOpacity
         testID={testIDs.agenda.ITEM}
-        style={[styles.item, {height: reservation.height}]}
-        onPress={() => Alert.alert(reservation.name)}>
-        <Text style={{fontSize, color}}>{reservation.name}</Text>
+        style={[styles.item, {height: entry.height}]}
+        onPress={() => Alert.alert(entry.name)}>
+        <TextInput
+          style={styles.inputAgenda}
+          value={entry.name}
+          onChangeText={text => onChangeText(text, index)}
+        />
+        {/* <Text style={{fontSize, color}}>{entry.name}</Text> */}
       </TouchableOpacity>
     );
   };
@@ -268,8 +265,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     margin: 12,
     marginHorizontal: 'auto',
-    height: 40,   
+    height: 40,
     borderWidth: 1,
+    padding: 10,
+  },
+  inputAgenda: {
+    width: '100%',
+    backgroundColor: '#fff',
+    margin: 12,
+    marginHorizontal: 'auto',
+    marginVertical: 'auto',
+    height: 40,
+    borderWidth: 0,
     padding: 10,
   },
 
@@ -278,10 +285,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
-    width:widthContent,
+    width: widthContent,
   },
   modalView: {
-    width:'100%',
+    width: '100%',
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
@@ -325,7 +332,6 @@ const styles = StyleSheet.create({
     color: '#0063A9',
     fontWeight: 'bold',
     marginBottom: 15,
- 
   },
 });
 
