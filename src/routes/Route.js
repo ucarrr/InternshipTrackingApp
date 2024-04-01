@@ -1,26 +1,24 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 import HomeScreen from '../screens/HomeScreen';
-
 import SignInScreen from '../screens/SignInScreen';
 import Profile from '../screens/Profile';
 import StepDetailScreen from '../screens/StepDetailScreen';
 import SplashScreen from '../screens/SplashScreen';
 import CalenderScreen from '../screens/CalenderScreen';
 import Calender from '../components/Calender';
+import Questions from '../screens/QuestionsScreen';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import 'react-native-gesture-handler';
 
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+import {AnimatedTabBarNavigator} from 'react-native-animated-nav-tab-bar';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,11 +31,12 @@ export default function Route({navigation}) {
           headerShown: false,
         }}>
         <Stack.Screen name="SignIn" component={SignInScreen} />
-         
+
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="CalenderScreen" component={CalenderScreen} />
         <Stack.Screen name="Calender" component={Calender} />
         <Stack.Screen name="StepDetailScreen" component={StepDetailScreen} />
+        <Stack.Screen name="Questions" component={Questions} />
         <Stack.Screen
           options={{headerShown: false}}
           name="HomeScreen"
@@ -59,7 +58,97 @@ export default function Route({navigation}) {
   );
 }
 
-const Tab = createBottomTabNavigator();
+const Tabs = AnimatedTabBarNavigator();
+
+function MyTabs() {
+  return (
+    <Tabs.Navigator
+      initialRouteName="HomeScreen"
+      tabBarOptions={{
+        activeTintColor: '#FFFFFF',
+        inactiveTintColor: '#AAAAAA',
+        activeBackgroundColor: '#0087ff',
+        tabStyle: {
+          backgroundColor: '#FFFFFF',
+          borderWidth: 1,
+          borderColor: '#334EFF',
+          borderTopLeftRadius: 40,
+          borderTopRightRadius: 40,
+          borderBottomLeftRadius: 40,
+          borderBottomRightRadius: 40,
+          
+          
+        },
+        
+      }}
+    
+      appearance={{
+        shadow: true,
+        floating: false,
+      }}
+      labelStyle={{fontSize: 20,}}
+      >
+      <Tabs.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{           
+          tabBarIcon: ({focused, color, size}) => (
+            <MaterialCommunityIcons
+              name="home"
+              size={size ? size : 24}
+              color={focused ? color : '#AAAAAA'}
+              focused={focused}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Calender"
+        component={CalenderScreen}
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
+            <MaterialCommunityIcons
+              name="calendar"
+              size={size ? size : 24}
+              color={focused ? color : '#AAAAAA'}
+              focused={focused}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Questions"
+        component={Questions}
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
+            <MaterialCommunityIcons
+              name="text-box-search-outline"
+              size={size ? size : 24}
+              color={focused ? color : '#AAAAAA'}
+              focused={focused}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
+            <MaterialCommunityIcons
+              name="account"
+              size={size ? size : 24}
+              color={focused ? color : '#AAAAAA'}
+              focused={focused}
+            />
+          ),
+        }}
+      />
+    </Tabs.Navigator>
+  );
+}
+
+/*  const Tab = createBottomTabNavigator();
 
 function MyTabs() {
   return (
@@ -111,41 +200,6 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
+  */
 
-/* const TopTab = createMaterialTopTabNavigator();
-
-function TopTabfunc() {
-  return (
-    <TopTab.Navigator
-      initialRouteName="SignIn"
-      screenOptions={{
-        activeBackgroundColor: '#8BC540',
-        inactiveBackgroundColor: '#349746',
-        activeTintColor: '#F5F4F4', // tab text color
-        inactiveTintColor: '#F5F4F4',
-        tabStyle: {
-          paddingTop: 10,
-        },
-        style: {
-          height: 58,
-        },
-        labelPosition: 'below-icon',
-        labelStyle: {
-          marginTop: 5,
-          marginBottom: 4,
-        },
-      }}>
-      <TopTab.Screen
-        name="SignIn"
-        component={SignInScreen}
-        options={{tabBarLabel: 'SignIn'}}
-      />
-      <TopTab.Screen
-        name="SignUp"
-        component={SignUpScreen}
-        options={{tabBarLabel: 'SignUp'}}
-      />
-    </TopTab.Navigator>
-  );
-} */
 const styles = StyleSheet.create({});

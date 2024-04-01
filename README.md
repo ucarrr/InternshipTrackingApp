@@ -92,3 +92,5 @@ To learn more about React Native, take a look at the following resources:
 # https://github.com/WrathChaos/react-native-bouncy-checkbox
 
 # https://www.npmjs.com/package/react-native-circular-progress
+
+# https://github.com/torgeadelin/react-native-animated-nav-tab-bar

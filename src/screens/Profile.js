@@ -12,22 +12,20 @@ import {Title, Avatar, Caption, TouchableRipple} from 'react-native-paper';
 import Icon1 from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 //import { useNavigation } from '@react-navigation/native';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
 
 const windowWidth = Dimensions.get('window').width;
 
 export default function Profile({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#000" barStyle="light-content" />
-
       <View style={[styles.userInfoSection, {width: windowWidth * 0.9}]}>
-        <View style={{flexDirection: 'row', marginTop: 15}}>
+        <View style={{flexDirection: 'row', marginTop: 15,width: windowWidth * 0.9}}>
           <Avatar.Image
             source={require('../assets/Akdeniz_Universitesi.png')}
             size={80}
           />
-          <View style={{marginLeft: 20}}>
+          <View style={{marginLeft: 20,width: windowWidth * 0.9}}>
             <Title
               style={[
                 styles.title,
@@ -71,8 +69,8 @@ export default function Profile({navigation}) {
           size={180}
           width={15}
           fill={50}
-          tintColor="#DB6D2D"
-          backgroundColor="#fff"
+          tintColor="#0063A9"
+          backgroundColor="#f2f2f2"
           rotation={0}
           lineCap="round">
           {() => <Text style={styles.menuItemText}>50%</Text>}
@@ -81,8 +79,8 @@ export default function Profile({navigation}) {
           size={180}
           width={15}
           fill={75}
-          tintColor="#DB6D2D"
-          backgroundColor="#fff"
+          tintColor="#0063A9"
+          backgroundColor="#f2f2f2"
           rotation={0}
           lineCap="round">
           {() => <Text style={styles.menuItemText}>75%</Text>}
@@ -124,11 +122,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
 
   userInfoSection: {
     paddingHorizontal: 30,
     marginBottom: 25,
+    width: windowWidth * 0.9
   },
 
   title: {
@@ -170,10 +170,12 @@ const styles = StyleSheet.create({
   },
 
   containerCircular: {
+    width: windowWidth,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    alignItems: 'center',
-    paddingVertical: 20,
+    alignItems: 'center',    
+    marginHorizontal:'auto',
+    marginVertical:'auto',
   },
   progressWrapper: {
     alignItems: 'center',
@@ -187,6 +189,7 @@ const styles = StyleSheet.create({
 
   menuWrapper: {
     marginTop: 10,
+    width: windowWidth * 0.9
   },
 
   menuItem: {
