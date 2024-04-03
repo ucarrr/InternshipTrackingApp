@@ -1,19 +1,19 @@
 import { View, TextInput, FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Icon2 from 'react-native-vector-icons/FontAwesome';
 
 const documentCollection = [
-  { id: 1, text: 'Şirketin staja uygun olabilmesi için sahip olması gereken özellikler?' },
-  { id: 2, text: 'Bu staj süresince öğrencinin yapması gerekenler?' },
+  { id: 1, text: 'Bir şirketin staja uygun olabilmesi için sahip olması gereken özellikler?' },
+  { id: 2, text: 'Staj süresince öğrencinin yapması gerekenler maddeler halinde nelerdir?' },
   { id: 3, text: 'Puantaj belgesi en geç ayın kaçında verilmeli?' },
-  { id: 3, text: 'Staj raporunda olması zorunlu şeyler nelerdir?' },
-  { id: 3, text: 'Uzaktan yapılan stajlarda belge teslimi nasıl olmalı?' },
+  { id: 4, text: 'Staj raporunda olması zorunlu şeyler nelerdir?' },
+  { id: 5, text: 'Uzaktan yapılan stajlarda belge teslimi nasıl yapılmalıdır?' },
 
 ];
 
-// belgedeki maddeleri bulur
-const findSectionsWithTerm = (term, document) => {
-  const sections = document.split('\n\n');  
+ const findSectionsWithTerm = (term, document) => {
+  const sections = document.split('\n\n');
   return sections.filter(section => section.toLowerCase().includes(term.toLowerCase()));
 };
 
@@ -21,13 +21,11 @@ export default function QuestionsScreen({ navigation }) {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [documents, setDocuments] = useState(documentCollection);
 
   const handleSearch = (text) => {
     setSearchQuery(text);
-    const results = documentCollection.map(doc => ({
-      ...doc,
-      sections: findSectionsWithTerm(text, doc.text)
-    })).filter(result => result.sections.length > 0);
+    const results = documentCollection.filter(doc => doc.text.toLowerCase().includes(text.toLowerCase()));
     setSearchResults(results);
   };
 
@@ -45,33 +43,33 @@ export default function QuestionsScreen({ navigation }) {
     <View key={item.id} style={styles.item}>
       <Text style={styles.documentText}>{item.text}</Text>
       <TouchableOpacity onPress={() => toggleFavorite(item.id)}>
-        <Icon name={item.favorite ? 'heart' : 'hearto'} size={24} color={item.favorite ? '#DB6D2D' : '#0063A9'}/> 
+        <Icon style={styles.icon} name={item.favorite ? 'heart' : 'hearto'} size={24} color={item.favorite ? '#DB6D2D' : '#0063A9'} />
       </TouchableOpacity>
     </View>
   );
 
   return (
-  <View style={styles.container}>
-     <View style={styles.header}>
+    <View style={styles.container}>
+      <View style={styles.header}>
         <Text style={styles.headerText}>Questions</Text>
       </View>
-   <View style={styles.searchContainer}>
-   <TextInput
-      style={styles.searchInput}
-      placeholder="Ara..."
-      onChangeText={handleSearch}
-      value={searchQuery}
-    />
-    <TouchableOpacity style={styles.searchButton} onPress={() => handleSearch(searchQuery)}>
-      <Text style={styles.searchButtonText}>Ara</Text>
-    </TouchableOpacity>
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Ara..."
+          onChangeText={handleSearch}
+          value={searchQuery}
+        />
+        <TouchableOpacity style={styles.searchIcon} onPress={() => handleSearch(searchQuery)}>
+          <Icon2 name='search' color='#0063A9' size={26} />
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={searchQuery ? searchResults:documents}
+        renderItem={renderItem}
+        keyExtractor={item => item.id.toString()}
+      />
     </View>
-    <FlatList
-      data={searchResults}
-      renderItem={renderItem}
-      keyExtractor={item => item.id.toString()}
-    />
-  </View>
   );
 };
 
@@ -79,27 +77,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#f0f8ff',
+    backgroundColor: 'white',
   },
 
   searchContainer: {
     flexDirection: 'row',
-    alignItems:'flex-start',
+    alignItems: 'flex-start',
     marginBottom: 10,
-    
+    marginTop:10,
+
   },
 
   searchInput: {
-    flex:1,
+    flex: 1,
     height: 50,
     borderColor: '#0063A9',
-    borderWidth: 4,
+    borderWidth: 3,
     borderRadius: 15,
     paddingHorizontal: 10,
     marginBottom: 10,
+    marginTop: 10,
+    backgroundColor: 'white',
+    fontSize: 16,
+  },
+
+  searchIcon:{
+    padding:10,
+    height:50,
     marginTop:10,
-    backgroundColor:'white',
-  
+    paddingHorizontal:10,
+    
   },
 
   searchButton: {
@@ -107,17 +114,17 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
-    marginTop:15,
-    height:40,
-    marginLeft:5,
+    marginTop: 15,
+    height: 40,
+    marginLeft: 5,
   },
 
   searchButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-    justifyContent:'center',
-    alignItems:'center',
-    fontSize:15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 15,
   },
 
   header: {
@@ -129,24 +136,40 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     textTransform: 'uppercase',
+    color:'#DB6D2D'
   },
 
   item: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-    flexDirection:'row',
-    marginBottom:10,
-    justifyContent:'space-evenly',
-    alignItems:'flex-start'
+    flexDirection: 'row',
+    marginBottom: 10,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    borderRadius:15,
+    backgroundColor:'#f5f5f5'
   },
   documentText: {
     fontWeight: 'bold',
     marginBottom: 5,
+    justifyContent: 'space-evenly',
+    alignItems: 'flex-start',
+    paddingVertical: 6,
+    color: '#0063A9'
+
   },
+  icon: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+
   sectionContainer: {
     marginLeft: 15,
-    
+
   },
   sectionText: {
     marginBottom: 5,

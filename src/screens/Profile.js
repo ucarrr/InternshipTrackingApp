@@ -7,12 +7,51 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 //import { useNavigation } from '@react-navigation/native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import {Dimensions} from 'react-native';
+import { FAB, Portal, PaperProvider, AnimatedFAB  } from 'react-native-paper';
  
 const windowWidth = Dimensions.get('window').width;
 
 export default function Profile({navigation}) {
+  
+  const [state, setState] = React.useState({ open: false });
+
+  const onStateChange = ({ open }) => setState({ open });
+
+  const { open } = state;
+
   return (
    <SafeAreaView style={styles.container}>
+    
+        <FAB.Group
+          open={open}
+          visible
+          icon={open ? 'calendar-today' : 'plus'}
+          actions={[
+            { icon: 'plus', onPress: () => console.log('Pressed add') },
+            {
+              icon: 'star',
+              label: 'Star',
+              onPress: () => console.log('Pressed star'),
+            },
+            {
+              icon: 'email',
+              label: 'Email',
+              onPress: () => console.log('Pressed email'),
+            },
+            {
+              icon: 'bell',
+              label: 'Remind',
+              onPress: () => console.log('Pressed notifications'),
+            },
+          ]}
+          onStateChange={onStateChange}
+          onPress={() => {
+            if (open) {
+              // do something if the speed dial is open
+            }
+          }}
+        />
+      
     <StatusBar backgroundColor="#000" barStyle="light-content" />
     
     <View style={[styles.userInfoSection, { width: windowWidth * 0.9 }]}>
@@ -99,6 +138,7 @@ export default function Profile({navigation}) {
         </View>
       </TouchableRipple>
     </View>
+    
 
    </SafeAreaView>
   );

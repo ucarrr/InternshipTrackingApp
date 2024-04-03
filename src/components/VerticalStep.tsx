@@ -8,12 +8,15 @@ import {
   Pressable,
   ScrollView,
 } from 'react-native';
+import { FAB, Portal, Provider as PaperProvider, AnimatedFAB  } from 'react-native-paper';
 import StepIndicator from 'react-native-step-indicator';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Dimensions} from 'react-native';
 import CompletedButton from './CompletedButton';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+
 
 const windowWidth = Dimensions.get('window').width;
 const widthContent = windowWidth * 0.7;
@@ -93,7 +96,13 @@ export default function VerticalStep() {
     Array(labels.length).fill(false),
   );
 
+  const [state, setState] = React.useState({ open: false });
+  const onStateChange = ({ open }) => setState({ open });
+  const { open } = state;
+
   const navigation = useNavigation();
+
+  
 
   /*   const handleItemCompletion = () => {
     setIsCompleted(true);
@@ -170,6 +179,44 @@ export default function VerticalStep() {
           />
         </View>
       </ScrollView>
+      
+        <FAB.Group
+          open={open}
+          visible
+          icon={open ? 'calendar-today' : 'plus'}
+          color='#0063A9'
+          actions={[
+            { icon: 'plus', onPress: () => console.log('Pressed add'), color:'#0063A9', rippleColor:'#0063A9'},
+            {
+              icon: 'star',
+              label: 'Star',
+              color:'#0063A9',
+              labelTextColor:'#DB6D2D',
+              onPress: () => console.log('Pressed star'),
+            },
+            {
+              icon: 'email',
+              label: 'Email',
+              color:'#0063A9',
+              labelTextColor:'#DB6D2D',
+              onPress: () => console.log('Pressed email'),
+            },
+            {
+              icon: 'bell',
+              color:'#0063A9',
+              label: 'Remind',
+              labelTextColor:'#DB6D2D',
+              onPress: () => console.log('Pressed notifications'),
+            },
+          ]}
+          onStateChange={onStateChange}
+          onPress={() => {
+            if (open) {
+              // do something if the speed dial is open
+            }
+          }}
+        />
+      
     </View>
   );
 }
