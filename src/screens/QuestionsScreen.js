@@ -1,6 +1,7 @@
 import { View, TextInput, FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { Searchbar, TouchableRipple } from 'react-native-paper';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 
 const documentCollection = [
@@ -22,6 +23,7 @@ export default function QuestionsScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [documents, setDocuments] = useState(documentCollection);
+  const [favorites, setFavorites] = useState([]);
 
   const handleSearch = (text) => {
     setSearchQuery(text);
@@ -53,16 +55,25 @@ export default function QuestionsScreen({ navigation }) {
       <View style={styles.header}>
         <Text style={styles.headerText}>Questions</Text>
       </View>
+      <TouchableRipple onPress={() => {}}>
+        <View style={styles.menuItem}>
+        <Text style={styles.menuItemText}>Favorites</Text>
+          <Icon name='heart' color='#DB6D2D' size={25}/>
+        </View>
+      </TouchableRipple>
       <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Ara..."
-          onChangeText={handleSearch}
-          value={searchQuery}
-        />
-        <TouchableOpacity style={styles.searchIcon} onPress={() => handleSearch(searchQuery)}>
-          <Icon2 name='search' color='#0063A9' size={26} />
-        </TouchableOpacity>
+      <Searchbar
+      theme={{ colors: { primary: 'green' } }}
+      placeholder="Search"
+      onChangeText={handleSearch}
+      value={searchQuery}
+      iconColor='#DB6D2D'
+      borderColor= '#0063A9'
+      style={{backgroundColor: '#f5f5f5'}}
+      onIconPress={ () => handleSearch(searchQuery)}
+      inputStyle={{color: '#0063A9', fontSize:16}}
+      placeholderTextColor={'#0063A9'}
+    />
       </View>
       <FlatList
         data={searchQuery ? searchResults:documents}
@@ -83,8 +94,8 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: 10,
-    marginTop:10,
+    marginBottom: 30,
+    marginTop:35,
 
   },
 
@@ -173,5 +184,20 @@ const styles = StyleSheet.create({
   },
   sectionText: {
     marginBottom: 5,
+  },
+  menuItem:{
+    flexDirection:'row',
+    paddingVertical:5,
+    paddingHorizontal:5,
+    alignItems:'flex-end',
+    justifyContent:'flex-end',
+  },
+
+  menuItemText:{
+    color: '#DB6D2D',
+    marginLeft:20,
+    fontWeight:'600',
+    fontSize:14,
+    lineHeight:20
   },
 })

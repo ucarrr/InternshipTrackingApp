@@ -113,7 +113,7 @@ export default function Profile({navigation}) {
     </View>
 
     <View style={styles.menuWrapper}>
-      <TouchableRipple onPress={() => {}}>
+      <TouchableRipple onPress={() => navigation.navigate('FavoriteQuestions', { favoriteItems: favorites, removeFavorite: toggleFavorite })}>
         <View style={styles.menuItem}>
           <Icon name='heart' color='#0063A9' size={25}/>
           <Text style={styles.menuItemText}>Your Favorite Questions</Text>
@@ -245,3 +245,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+

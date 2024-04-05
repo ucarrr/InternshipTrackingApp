@@ -90,3 +90,6 @@ To learn more about React Native, take a look at the following resources:
 # npm i react-native-swiper --save
 
 # https://github.com/WrathChaos/react-native-bouncy-checkbox
+
+npm i lodash.filter
+npm i cosine-similarity

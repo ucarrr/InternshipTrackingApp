@@ -9,8 +9,8 @@ import StepDetailScreen from '../screens/StepDetailScreen';
 import SplashScreen from '../screens/SplashScreen';
 import CalenderScreen from '../screens/CalenderScreen';
 import Calender from '../components/Calender';
+import FavoriteQuestions from '../screens/FavoriteQuestions';
 import QuestionsScreen from '../screens/QuestionsScreen';
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -22,6 +22,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,7 @@ export default function Route({ navigation }) {
         <Stack.Screen name="Calender" component={Calender} />
         <Stack.Screen name="StepDetailScreen" component={StepDetailScreen} />
         <Stack.Screen name="QuestionsScreen" component={QuestionsScreen} />
+        <Stack.Screen name="FavoriteQuestions" component={FavoriteQuestions} />
         <Stack.Screen
           options={{ headerShown: false }}
           name="HomeScreen"
