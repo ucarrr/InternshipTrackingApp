@@ -93,7 +93,7 @@ export default function Profile({navigation}) {
           width={15}
           fill={50}
           tintColor="#DB6D2D"
-          backgroundColor="#fff"
+          backgroundColor="white"
           rotation={0}
           lineCap="round"
         >

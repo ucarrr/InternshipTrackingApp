@@ -2,12 +2,16 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import {Checkbox, TextInput} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Icon2 from 'react-native-vector-icons/Ionicons';
 
 export default function SignInScreen({navigation}) {
   const [showLogin, setShowLogin] = useState(true);
   const [emailText, setEmailText] = useState('');
+  const [emailVerify,setEmailVerify]=useState(false);
   const [password, setPassword] = useState('');
+  const [passwordVerify,setpasswordVerify]=useState(false);
   const [checked, setChecked] = useState(false);
+  const [confirmPassword, setConfirmPassword]=useState('');
 
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [eyeIcon, setEyeIcon] = useState('eye');
@@ -27,6 +31,29 @@ export default function SignInScreen({navigation}) {
       setPasswordVisibility(!passwordVisibility);
     }
   };
+
+  function handleEmail(text){
+    const regex=/^[a-zA-Z0-9._%+-]+@ogr\.akdeniz\.edu\.tr$/;
+    setEmailText(text);
+    if(regex.test(text)){
+      setEmailVerify(false);
+    }
+    else{
+      setEmailVerify(true)
+    }
+  }
+
+  function handlePassword(text){
+    if(password==text){
+      setpasswordVerify(false);
+    }
+    else{
+      console.log(text);
+       setpasswordVerify(true);
+    }
+  }
+
+
   return (
     <View style={styles.container}>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
@@ -56,7 +83,7 @@ export default function SignInScreen({navigation}) {
             mode="outlined"
             label="Email"
             
-            onChangeText={emailText => setEmailText(emailText)}
+            onChangeText={text=>handleEmail(text)}
             right={<TextInput.Icon icon="account" color="#0063A9"/>}
           />
           <TextInput
@@ -67,8 +94,6 @@ export default function SignInScreen({navigation}) {
             mode="outlined"
             label="Password"
             secureTextEntry={passwordVisibility}
-            
-            
             onChangeText={setPassword}
             right={<TextInput.Icon icon={eyeIcon} color="#0063A9" onPress={handlePasswordVisibility}/>}
           />
@@ -84,7 +109,13 @@ export default function SignInScreen({navigation}) {
           </View>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => {
+              {
+                emailVerify
+                  ? alert('Email format is wrong')
+                  : navigation.navigate('Home')
+              }
+            }}
             style={styles.button}>
             <Text style={styles.buttonTextFont}>SignIn</Text>
           </TouchableOpacity>
@@ -106,7 +137,7 @@ export default function SignInScreen({navigation}) {
             mode="outlined"
             label="Email"
             
-            onChangeText={emailText => setEmailText(emailText)}
+            onChangeText={text=>handleEmail(text)}
             right={<TextInput.Icon icon="account" color="#0063A9"/>}
           />
           <TextInput
@@ -130,11 +161,21 @@ export default function SignInScreen({navigation}) {
             label="Password"
             secureTextEntry={passwordVisibility}
             
-            onChangeText={setPassword}
+            onChangeText={setConfirmPassword}
             right={<TextInput.Icon icon={eyeIcon} color="#0063A9" onPress={handlePasswordVisibility}/>}
           />
 
-          <TouchableOpacity onPress={handlePressTrue} style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => {
+                  {
+                    emailVerify
+                      ? alert('You CANNOT signup. Email is not valid')
+                      : password==confirmPassword 
+                      ? navigation.navigate('Home')
+                      : alert(
+                        `password and confirm password must be same ${password}`
+                        );
+                  }
+                }}>
             <Text style={styles.buttonTextFont}>SignUp</Text>
           </TouchableOpacity>
         </View>
