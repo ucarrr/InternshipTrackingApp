@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Image, Alert} from 'react-native';
 import {Checkbox, TextInput} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
 
 export default function SignInScreen({navigation}) {
   const [showLogin, setShowLogin] = useState(true);
@@ -15,6 +16,32 @@ export default function SignInScreen({navigation}) {
 
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [eyeIcon, setEyeIcon] = useState('eye');
+
+
+  function handleSignUp(){
+    const userData={
+      email:emailText,
+      password:password,
+    };
+    if(emailVerify){
+      axios.post("http://192.168.1.108:5001/register",userData)
+    .then(res=> {
+      console.log(res.data);
+      if(res.data.status == 'ok'){
+        Alert.alert('Kayıt başarılı!');
+      }
+      else{
+        Alert.alert(JSON.stringify(res.data));
+      }
+    })
+    .catch(e=> console.log(e));
+    }
+    else{
+      Alert.alert("Doğru bir şekilde doldurun")
+    }
+  
+  }
+
 
   const handlePressTrue = () => {
     setShowLogin(true);
@@ -43,8 +70,8 @@ export default function SignInScreen({navigation}) {
     }
   }
 
-  function handlePassword(text){
-    if(password==text){
+  function handlePassword(){
+    if(password==confirmPassword){
       setpasswordVerify(false);
     }
     else{
@@ -165,17 +192,7 @@ export default function SignInScreen({navigation}) {
             right={<TextInput.Icon icon={eyeIcon} color="#0063A9" onPress={handlePasswordVisibility}/>}
           />
 
-          <TouchableOpacity style={styles.button} onPress={() => {
-                  {
-                    emailVerify
-                      ? alert('You CANNOT signup. Email is not valid')
-                      : password==confirmPassword 
-                      ? navigation.navigate('Home')
-                      : alert(
-                        `password and confirm password must be same ${password}`
-                        );
-                  }
-                }}>
+          <TouchableOpacity style={styles.button} onPress={() => handleSignUp()}>
             <Text style={styles.buttonTextFont}>SignUp</Text>
           </TouchableOpacity>
         </View>
