@@ -16,6 +16,7 @@ import CompletedButton from './CompletedButton';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -126,6 +127,8 @@ export default function VerticalStep() {
     // Burada label tıklandığında gerçekleştirilecek işlemler yer alacak
   };
   return (
+    <SafeAreaView style={styles.container2}>
+      <Text style={styles.headerText}>To Do List</Text>
     <View style={styles.container}>
       <ScrollView
         showsHorizontalScrollIndicator={false}
@@ -218,6 +221,7 @@ export default function VerticalStep() {
         />
       
     </View>
+    </SafeAreaView>
   );
 }
 
@@ -226,9 +230,18 @@ const styles = StyleSheet.create({
     padding: 15,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#f2f2f2',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  container2:{
+    flex:1,
+    alignItems:'flex-end',
+    justifyContent:'flex-end',
+    borderWidth:1,
+    borderTopLeftRadius:320,
+    borderBottomEndRadius:320,
+    borderColor:'#ccc',
+    backgroundColor:'white'
   },
   stepIndicator: {
     width: width,
@@ -242,14 +255,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     flexDirection: 'row',
-    height: 100,
+    height: 85,
     backgroundColor: '#fff',
     borderRadius: 10,
     borderColor: '#0098fe',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -264,17 +277,28 @@ const styles = StyleSheet.create({
   labelContainer: {
     width: '80%',
     marginBottom: 10,
-    padding: 10,
+    padding: 1,
     borderRadius: 5,
   },
   labelIndex: {
-    textAlign: 'center',
-    color: 'black',
+    textAlign:'center',
+    color: '#DB6D2D',
+    fontSize:15,
+    fontWeight:'700',
+    
   },
   label: {
     textAlign: 'left',
     color: '#007ad1',//0080db
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '500',
+  },
+  headerText: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    color:'#DB6D2D',
+    marginRight:13,
+    marginTop:15
   },
 });

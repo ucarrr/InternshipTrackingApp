@@ -21,37 +21,6 @@ export default function Profile({navigation}) {
 
   return (
    <SafeAreaView style={styles.container}>
-    
-        <FAB.Group
-          open={open}
-          visible
-          icon={open ? 'calendar-today' : 'plus'}
-          actions={[
-            { icon: 'plus', onPress: () => console.log('Pressed add') },
-            {
-              icon: 'star',
-              label: 'Star',
-              onPress: () => console.log('Pressed star'),
-            },
-            {
-              icon: 'email',
-              label: 'Email',
-              onPress: () => console.log('Pressed email'),
-            },
-            {
-              icon: 'bell',
-              label: 'Remind',
-              onPress: () => console.log('Pressed notifications'),
-            },
-          ]}
-          onStateChange={onStateChange}
-          onPress={() => {
-            if (open) {
-              // do something if the speed dial is open
-            }
-          }}
-        />
-      
     <StatusBar backgroundColor="#000" barStyle="light-content" />
     
     <View style={[styles.userInfoSection, { width: windowWidth * 0.9 }]}>
@@ -93,7 +62,7 @@ export default function Profile({navigation}) {
           width={15}
           fill={50}
           tintColor="#DB6D2D"
-          backgroundColor="white"
+          backgroundColor="#ccc"
           rotation={0}
           lineCap="round"
         >
@@ -104,7 +73,7 @@ export default function Profile({navigation}) {
           width={15}
           fill={75}
           tintColor="#DB6D2D"
-          backgroundColor="#fff"
+          backgroundColor="#ccc"
           rotation={0}
           lineCap="round"
         >
@@ -147,8 +116,9 @@ export default function Profile({navigation}) {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    alignItems:'flex-start',
+    alignItems:'flex-center',
     justifyContent:'center',
+    backgroundColor:'white'
   },
 
   userInfoSection: {
@@ -219,8 +189,11 @@ const styles = StyleSheet.create({
 
   menuItem:{
     flexDirection:'row',
+    borderTopWidth: 1,
+    borderColor:'#ccc',
     paddingVertical:15,
     paddingHorizontal:30,
+    
   },
 
   menuItemText:{

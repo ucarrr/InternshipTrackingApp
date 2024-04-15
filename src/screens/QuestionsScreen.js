@@ -3,15 +3,18 @@ import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Searchbar, TouchableRipple } from 'react-native-paper';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
+import {Dimensions} from 'react-native';
 
 const documentCollection = [
-  { id: 1, text: 'Bir şirketin staja uygun olabilmesi için sahip olması gereken özellikler?' },
+  { id: 1, text: ' Bir şirketin staja uygun olabilmesi için sahip olması gereken özellikler?' },
   { id: 2, text: 'Staj süresince öğrencinin yapması gerekenler maddeler halinde nelerdir?' },
   { id: 3, text: 'Puantaj belgesi en geç ayın kaçında verilmeli?' },
   { id: 4, text: 'Staj raporunda olması zorunlu şeyler nelerdir?' },
   { id: 5, text: 'Uzaktan yapılan stajlarda belge teslimi nasıl yapılmalıdır?' },
 
 ];
+
+const windowWidth = Dimensions.get('window').width;
 
  const findSectionsWithTerm = (term, document) => {
   const sections = document.split('\n\n');
@@ -54,14 +57,16 @@ export default function QuestionsScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Questions</Text>
-      </View>
-      <TouchableRipple onPress={() => {}}>
-        <View style={styles.menuItem}>
-        <Text style={styles.menuItemText}>Favorites</Text>
+        <TouchableRipple onPress={() => {}}>
+          <View style={styles.subtitle}>
+        <Text style={styles.subtitleText}>Favorites</Text>
           <Icon name='heart' color='#DB6D2D' size={25}/>
-        </View>
-      </TouchableRipple>
-      <View style={styles.searchContainer}>
+          </View>
+        </TouchableRipple>
+
+      </View>
+      
+      <View style={[styles.searchContainer,{ width: windowWidth * 0.9}]}>
       <Searchbar
       theme={{ colors: { primary: 'green' } }}
       placeholder="Search"
@@ -93,9 +98,10 @@ const styles = StyleSheet.create({
 
   searchContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginBottom: 30,
     marginTop:35,
+    justifyContent:'center'
 
   },
 
@@ -104,7 +110,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: '#0063A9',
     borderWidth: 3,
-    borderRadius: 15,
+    borderRadius: 10,
     paddingHorizontal: 10,
     marginBottom: 10,
     marginTop: 10,
@@ -141,7 +147,8 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 20,
     marginRight: 10,
-    alignSelf: 'flex-start',
+    justifyContent:'space-between',
+    flexDirection:'row'
   },
   headerText: {
     fontSize: 24,
@@ -153,21 +160,22 @@ const styles = StyleSheet.create({
   item: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderColor: '#ccc',
     flexDirection: 'row',
     marginBottom: 10,
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
     borderRadius:15,
-    backgroundColor:'#f5f5f5'
+    backgroundColor:'white',
+    
   },
   documentText: {
     fontWeight: 'bold',
     marginBottom: 5,
-    justifyContent: 'space-evenly',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: 6,
-    color: '#0063A9'
+    color: '#0063A9',
 
   },
   icon: {
@@ -185,19 +193,20 @@ const styles = StyleSheet.create({
   sectionText: {
     marginBottom: 5,
   },
-  menuItem:{
+  subtitle:{
     flexDirection:'row',
     paddingVertical:5,
     paddingHorizontal:5,
-    alignItems:'flex-end',
-    justifyContent:'flex-end',
+    justifyContent:'space-evenly',
   },
 
-  menuItemText:{
+  subtitleText:{
     color: '#DB6D2D',
     marginLeft:20,
     fontWeight:'600',
     fontSize:14,
-    lineHeight:20
+    lineHeight:20,
+    paddingRight:3,
+    marginTop:6,
   },
 })
