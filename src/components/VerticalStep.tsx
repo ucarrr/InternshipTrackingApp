@@ -8,12 +8,16 @@ import {
   Pressable,
   ScrollView,
 } from 'react-native';
+
+ 
 import StepIndicator from 'react-native-step-indicator';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Dimensions} from 'react-native';
 import CompletedButton from './CompletedButton';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const windowWidth = Dimensions.get('window').width;
 const widthContent = windowWidth * 0.7;
@@ -93,6 +97,10 @@ export default function VerticalStep() {
     Array(labels.length).fill(false),
   );
 
+  const [state, setState] = React.useState({open: false});
+  const onStateChange = ({open}) => setState({open});
+  const {open} = state;
+
   const navigation = useNavigation();
 
   /*   const handleItemCompletion = () => {
@@ -117,60 +125,63 @@ export default function VerticalStep() {
     // Burada label tıklandığında gerçekleştirilecek işlemler yer alacak
   };
   return (
-    <View style={styles.container}>
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'row',
-        }}>
-        <View style={styles.stepIndicator}>
-          <StepIndicator
-            customStyles={indicatorStyles}
-            stepCount={6}
-            direction="vertical"
-            currentPosition={currentPage}
-            onPress={onStepPress}
-            renderStepIndicator={renderStepIndicator}
-            labels={labels2.map((item, index) => (
-              <View style={styles.content}>
-                <View style={styles.content2}>
-                  <Text style={styles.labelIndex}>Step {index + 1}</Text>
-                  <TouchableHighlight
-                    activeOpacity={0.6}
-                    underlayColor="'rgb(210, 230, 255)' : 'white',"
-                    key={index}
-                    onPress={() => handleLabelPress(index)}
-                    style={[styles.labelContainer]}>
-                    <Text style={styles.label}>{item.text}</Text>
-                  </TouchableHighlight>
+    <SafeAreaView style={styles.container2}>
+      <Text style={styles.headerText}>ÇİZELGE</Text>
+      <View style={styles.container}>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'row',
+          }}>
+          <View style={styles.stepIndicator}>
+            <StepIndicator
+              customStyles={indicatorStyles}
+              stepCount={6}
+              direction="vertical"
+              currentPosition={currentPage}
+              onPress={onStepPress}
+              renderStepIndicator={renderStepIndicator}
+              labels={labels2.map((item, index) => (
+                <View style={styles.content}>
+                  <View style={styles.content2}>
+                    <Text style={styles.labelIndex}>Step {index + 1}</Text>
+                    <TouchableHighlight
+                      activeOpacity={0.6}
+                      underlayColor="'rgb(210, 230, 255)' : 'white',"
+                      key={index}
+                      onPress={() => handleLabelPress(index)}
+                      style={[styles.labelContainer]}>
+                      <Text style={styles.label}>{item.text}</Text>
+                    </TouchableHighlight>
 
-                  {/*  {completedSteps.length > index && completedSteps[index] ? (
+                    {/*  {completedSteps.length > index && completedSteps[index] ? (
                 <Text>Öğe tamamlandı</Text>
               ) : (
                 <Text>Öğe devam ediyor</Text>
               )} */}
-                  {/*  {currentPage === index ? (
+                    {/*  {currentPage === index ? (
                 <Text>Öğe devam ediyor</Text>
               ) : currentPage > index ? (
                 <Text>Öğe tamamlandı</Text>
               ) : null} */}
+                  </View>
+                  <Pressable onPress={() => handleLabelPress(index)}>
+                    <MaterialCommunityIcons
+                      name={'chevron-right'}
+                      size={20}
+                      color={'blue'}
+                    />
+                  </Pressable>
                 </View>
-                <Pressable onPress={() => handleLabelPress(index)}>
-                  <MaterialCommunityIcons
-                    name={'chevron-right'}
-                    size={20}
-                    color={'blue'}
-                  />
-                </Pressable>
-              </View>
-            ))}
-          />
-        </View>
-      </ScrollView>
-    </View>
+              ))}
+            />
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -179,9 +190,18 @@ const styles = StyleSheet.create({
     padding: 15,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  container2: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderTopLeftRadius: 320,
+    borderBottomEndRadius: 320,
+    borderColor: '#ccc',
+    backgroundColor: 'white',
   },
   stepIndicator: {
     width: width,
@@ -195,14 +215,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     flexDirection: 'row',
-    height: 100,
+    height: 85,
     backgroundColor: '#fff',
     borderRadius: 10,
     borderColor: '#0098fe',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -217,17 +237,29 @@ const styles = StyleSheet.create({
   labelContainer: {
     width: '80%',
     marginBottom: 10,
-    padding: 10,
+    padding: 1,
     borderRadius: 5,
   },
   labelIndex: {
     textAlign: 'center',
-    color: 'black',
+    color: '#DB6D2D',
+    fontSize: 15,
+    fontWeight: '700',
   },
   label: {
     textAlign: 'left',
-    color: '#007ad1',//0080db
-    fontSize: 15,
+    color: '#007ad1', //0080db
+    fontSize: 16,
     fontWeight: '500',
+  },
+  headerText: {
+    fontSize: 25,
+    fontWeight: 'bold',     
+    color: '#DB6D2D',
+    marginRight: '10%',
+    marginTop: '5%',
+    marginHorizontal:130,
+    alignSelf:'flex-end', 
+    
   },
 });
