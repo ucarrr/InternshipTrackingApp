@@ -8,12 +8,57 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import {Dimensions} from 'react-native';
 import { FAB, Portal, PaperProvider, AnimatedFAB  } from 'react-native-paper';
+import axios from 'axios';
+import {URLs, databases} from '../services/index';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
  
 const windowWidth = Dimensions.get('window').width;
 
 export default function Profile({navigation}) {
   
   const [state, setState] = React.useState({ open: false });
+
+  const [userInfo, setUserInfo] = useState(null);
+
+/*   useEffect(() => {
+    const loadUserData = async () => {
+      const userDataString = await AsyncStorage.getItem('userData');
+      const userData = JSON.parse(userDataString);
+      console.log("userData: "+ userData.email)
+      setUserInfo(userData);
+    };
+
+    loadUserData();
+  }, []); */
+
+  useEffect(() => {
+    fetchUserProfile().then(data => {
+      setUserInfo(data);
+    }).catch(err => console.log(err));
+  }, []);
+
+  const fetchUserProfile = async () => {
+    try {
+      const url = URLs.BASE_URL + databases.ME;
+      console.log("url: "+ url)
+      const token = await AsyncStorage.getItem('userData');     
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log('User Profile:', response.data);   
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      throw error;
+    }
+  };
+
+   if (!userInfo) {
+    return <Text>Loading...</Text>;
+  } 
 
   const onStateChange = ({ open }) => setState({ open });
 
@@ -33,7 +78,7 @@ export default function Profile({navigation}) {
           <Title style={[styles.title,{
           marginTop:8,
           marginBottom:5,
-          }]}>Muhammet Ucar</Title>
+          }]}>{userInfo.email}sd</Title>
           <Caption style={styles.caption}>@ucar</Caption>
         </View>
       </View>

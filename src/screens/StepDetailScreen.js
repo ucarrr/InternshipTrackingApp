@@ -16,7 +16,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 const windowWidth = Dimensions.get('window').width;
 
-const DATA = [
+/* const DATA = [
   {id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba', title: 'First Item'},
   {id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63', title: 'Second Item'},
   {id: '58694a0f-3da1-471f-bd96-145571e29d72', title: 'Third Item'},
@@ -28,11 +28,15 @@ const DATA = [
   {id: '47b1da4e-1b07-4a41-9de1-875cf3e599c1', title: 'Ninth Item'},
   {id: '06e2b919-c1c0-4a6e-b5dc-4e03a4cf7a2d', title: 'Tenth Item'},
 ];
-
-export default function StepDetailScreen({navigation}) {
+ */
+export default function StepDetailScreen({navigation, route}) {
   //const [checked, setChecked] = useState({});
 
-  const [checked, setChecked] = useState(Array(DATA.length).fill(false));
+  const {index, stepDetails} = route.params;
+
+  console.log("stepDetails: ",stepDetails)
+
+  const [checked, setChecked] = useState(Array(stepDetails.length).fill(true));
 
   const handleCheck = (index, boolean) => {
     console.log(`ITEM ${index + 1} pressed Status ${boolean}`);
@@ -85,7 +89,7 @@ export default function StepDetailScreen({navigation}) {
       <SafeAreaView style={styles.container}>
         <FlatList
           style={styles.listStyle}
-          data={DATA}
+          data={stepDetails}
           renderItem={({item, index}) => (
             <Item title={item.title} index={index} />
           )}
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
   },
   item: {
-    backgroundColor: '#fff',    
+    backgroundColor: '#fff',
     borderRadius: 20,
     borderColor: '#0063A9',
     padding: 20,

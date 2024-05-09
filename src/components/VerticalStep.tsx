@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,7 +9,6 @@ import {
   ScrollView,
 } from 'react-native';
 
- 
 import StepIndicator from 'react-native-step-indicator';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Dimensions} from 'react-native';
@@ -18,6 +17,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useNavigation} from '@react-navigation/native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import axios from 'axios';
+import {URLs, databases} from '../services/index';
 
 const windowWidth = Dimensions.get('window').width;
 const widthContent = windowWidth * 0.7;
@@ -97,11 +98,26 @@ export default function VerticalStep() {
     Array(labels.length).fill(false),
   );
 
-  const [state, setState] = React.useState({open: false});
-  const onStateChange = ({open}) => setState({open});
-  const {open} = state;
-
   const navigation = useNavigation();
+
+  const [stepData, setStepData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    try {
+      const url = URLs.BASE_URL + databases.STEP;
+      const response = await axios.get(url);
+      console.log('Data:', response.data);
+      setStepData(response.data);
+      console.log('Step Data:', stepData);
+      return response.data; // Verileri döndürür
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      throw error; // Hata yönetimi için hatayı fırlat
+    }
+  };
 
   /*   const handleItemCompletion = () => {
     setIsCompleted(true);
@@ -119,8 +135,8 @@ export default function VerticalStep() {
     <MaterialIcons {...getStepIndicatorIconConfig(params)} />
   );
 
-  const handleLabelPress = (position: number) => {
-    navigation.navigate('StepDetailScreen', {stepIndex: position});
+  const goToDetails = (position: number, stepDetails: any) => {
+    navigation.navigate('StepDetailScreen', {stepIndex: position, stepDetails});
     console.log(`Label ${position + 1} pressed`);
     // Burada label tıklandığında gerçekleştirilecek işlemler yer alacak
   };
@@ -144,7 +160,7 @@ export default function VerticalStep() {
               currentPosition={currentPage}
               onPress={onStepPress}
               renderStepIndicator={renderStepIndicator}
-              labels={labels2.map((item, index) => (
+              labels={stepData.map((item, index) => (
                 <View style={styles.content}>
                   <View style={styles.content2}>
                     <Text style={styles.labelIndex}>Step {index + 1}</Text>
@@ -152,9 +168,9 @@ export default function VerticalStep() {
                       activeOpacity={0.6}
                       underlayColor="'rgb(210, 230, 255)' : 'white',"
                       key={index}
-                      onPress={() => handleLabelPress(index)}
+                      onPress={() => goToDetails(index, item.stepDetails)}
                       style={[styles.labelContainer]}>
-                      <Text style={styles.label}>{item.text}</Text>
+                      <Text style={styles.label}>{item.title}</Text>
                     </TouchableHighlight>
 
                     {/*  {completedSteps.length > index && completedSteps[index] ? (
@@ -168,7 +184,7 @@ export default function VerticalStep() {
                 <Text>Öğe tamamlandı</Text>
               ) : null} */}
                   </View>
-                  <Pressable onPress={() => handleLabelPress(index)}>
+                  <Pressable  onPress={() => goToDetails(index, item.stepDetails)}>
                     <MaterialCommunityIcons
                       name={'chevron-right'}
                       size={20}
@@ -254,12 +270,11 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 25,
-    fontWeight: 'bold',     
+    fontWeight: 'bold',
     color: '#DB6D2D',
     marginRight: '10%',
     marginTop: '5%',
-    marginHorizontal:130,
-    alignSelf:'flex-end', 
-    
+    marginHorizontal: 130,
+    alignSelf: 'flex-end',
   },
 });

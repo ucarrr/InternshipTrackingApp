@@ -94,3 +94,5 @@ To learn more about React Native, take a look at the following resources:
 # https://www.npmjs.com/package/react-native-circular-progress
 
 # https://github.com/torgeadelin/react-native-animated-nav-tab-bar
+
+# npm install @react-native-async-storage/async-storage
