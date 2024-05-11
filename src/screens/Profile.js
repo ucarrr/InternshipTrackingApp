@@ -40,19 +40,18 @@ export default function Profile({navigation}) {
 
   const fetchUserProfile = async () => {
     try {
-      const url = URLs.BASE_URL + databases.ME;
-      console.log("url: "+ url)
-      const token = await AsyncStorage.getItem('userData');     
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      console.log('User Profile:', response.data);   
-      return response.data;
+      
+      
+      const userDataString = await AsyncStorage.getItem('userDataResponse');   
+      const userData = userDataString ? JSON.parse(userDataString) : null;  
+      
+      console.log('User Profile:', userData);   
+      return userData;
+    
     } catch (error) {
       console.error('Error fetching user profile:', error);
-      throw error;
+      Alert.alert('Error', 'Failed to load user data');
+      
     }
   };
 
@@ -78,8 +77,8 @@ export default function Profile({navigation}) {
           <Title style={[styles.title,{
           marginTop:8,
           marginBottom:5,
-          }]}>{userInfo.email}sd</Title>
-          <Caption style={styles.caption}>@ucar</Caption>
+          }]}>email</Title>
+          <Caption style={styles.caption}>{userInfo.email}</Caption>
         </View>
       </View>
     </View>

@@ -52,6 +52,8 @@ export default function SignInScreen({navigation}) {
 
   const loginUser = async (email, password) => {
     const url = URLs.BASE_URL + databases.LOGIN;
+    const userURL = URLs.BASE_URL + databases.ME;
+
     console.log('url veriler:', url);
     try {
       const response = await axios.post(url, {
@@ -60,37 +62,47 @@ export default function SignInScreen({navigation}) {
       });
       console.log('Login response:', response.data); // Giriş yanıtını konsola yazdır
 
-      const userData = response.data;
-      await AsyncStorage.setItem('userData', JSON.stringify(userData));
-      navigation.navigate('Home')
-      return response.data; // Sunucudan gelen veriyi döndür
+      const token = response.data.token;
+
+      console.log("Token-:"+ token)
+
+      console.log('userURL:', userURL);
+      const userDataResponse  = await axios.get(userURL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      await AsyncStorage.setItem('userDataResponse', JSON.stringify(userDataResponse.data));
+
+      console.log('User Profile:', userDataResponse.data);
+
+      navigation.navigate('Home');
+      return userDataResponse.data;
     } catch (error) {
       console.error('Error logging in:', error);
 
-    // Hata mesajını oluşturma
-    let errorMessage = "Giriş yaparken bilinmeyen bir hata meydana geldi. Lütfen tekrar deneyin.";
-    if (error.response && error.response.data) {
-      if (typeof error.response.data === 'string') {
-        errorMessage = error.response.data;
-      } else if (error.response.data.message) {
-        errorMessage = error.response.data.message;
+      // Hata mesajını oluşturma
+      let errorMessage =
+        'Giriş yaparken bilinmeyen bir hata meydana geldi. Lütfen tekrar deneyin.';
+
+      if (error.response && error.response.data) {
+        if (typeof error.response.data === 'string') {
+          errorMessage = error.response.data;
+        } else if (error.response.data.message) {
+          errorMessage = error.response.data.message;
+        }
+      } else if (error.message) {
+        errorMessage = error.message;
       }
-    } else if (error.message) {
-      errorMessage = error.message;
-    }
 
-    // Alert ile hata mesajını göster
-    Alert.alert(
-      "Giriş Hatası",  // Uyarı başlığı
-      errorMessage,  // Uyarı mesajı
-      [
-        { text: "Tamam", onPress: () => console.log("OK Pressed") }
-      ],
-      { cancelable: false }
-    );
+      Alert.alert(
+        'Giriş Hatası',
+        errorMessage,
+        [{text: 'Tamam', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      );
 
-    // Hata döndür veya başka bir işlem yap
-    return error; // Eğer bir değer döndürmek istemiyorsanız
+      return null;
     }
   };
 
