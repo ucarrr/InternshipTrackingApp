@@ -11,6 +11,7 @@ import {Checkbox, TextInput} from 'react-native-paper';
 import axios from 'axios';
 import {URLs, databases} from '../services/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/dist/Ionicons';
 
 export default function SignInScreen({navigation}) {
   const [showLogin, setShowLogin] = useState(true);
@@ -24,6 +25,26 @@ export default function SignInScreen({navigation}) {
   const [eyeIcon, setEyeIcon] = useState('eye');
 
   useEffect(() => {
+    const loadCredentials = async () => {
+      try {
+        const credentialsString = await AsyncStorage.getItem('userCredentials');
+        console.log("credentialsString: ",credentialsString)
+        const credentials = credentialsString ? JSON.parse(credentialsString) : null;
+        console.log("credentials: ",credentials)
+        if (credentials) {
+          console.log("credentials in if: ",credentials)
+          console.log("credentials.emailTextLogin in if: ",credentials.emailTextLogin)
+          console.log("credentials.emailTextLogin in if: ",credentials.passwordLogin)
+          setemailTextLogin(credentials.emailTextLogin);
+          setPasswordLogin(credentials.passwordLogin);
+          setChecked(true); 
+        }
+      } catch (error) {
+        console.error('Failed to load credentials', error);
+      }
+    };
+  
+    loadCredentials();
     //handleRegister();
     //loginUser();
   }, []);
@@ -64,17 +85,28 @@ export default function SignInScreen({navigation}) {
 
       const token = response.data.token;
 
-      console.log("Token-:"+ token)
+      console.log('Token-:' + token);
 
       console.log('userURL:', userURL);
-      const userDataResponse  = await axios.get(userURL, {
+      const userDataResponse = await axios.get(userURL, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      await AsyncStorage.setItem('userDataResponse', JSON.stringify(userDataResponse.data));
+      await AsyncStorage.setItem(
+        'userDataResponse',
+        JSON.stringify(userDataResponse.data),
+      );
 
       console.log('User Profile:', userDataResponse.data);
+      
+      
+      console.log("checked: ", checked)
+
+      if (checked) {   
+        console.log("checked: ", emailTextLogin,passwordLogin)
+        await AsyncStorage.setItem('userCredentials', JSON.stringify({ emailTextLogin, passwordLogin }));
+      }
 
       navigation.navigate('Home');
       return userDataResponse.data;
@@ -160,6 +192,7 @@ export default function SignInScreen({navigation}) {
             activeOutlineColor="#0063A9"
             mode="outlined"
             label="Email"
+            value={emailTextLogin}
             onChangeText={text => setemailTextLogin(text)}
             right={<TextInput.Icon icon="account" color="#0063A9" />}
           />
@@ -171,6 +204,7 @@ export default function SignInScreen({navigation}) {
             mode="outlined"
             label="Password"
             secureTextEntry={passwordVisibility}
+            value={passwordLogin}
             onChangeText={text => setPasswordLogin(text)}
             right={
               <TextInput.Icon
@@ -181,13 +215,14 @@ export default function SignInScreen({navigation}) {
             }
           />
           <View style={styles.checkboxContainer}>
-            <Checkbox
-              color="#0063A9"
-              status={checked ? 'checked' : 'unchecked'}
-              onPress={() => {
-                setChecked(!checked);
-              }}
-            />
+            <TouchableOpacity
+              style={styles.checkbox}
+              onPress={() => setChecked(!checked)}>
+              {checked ? (
+                <Icon name="checkmark" size={23} color={'#0063A9'} />
+              ) : null}
+            </TouchableOpacity>
+
             <Text style={styles.checkboxText}>Beni Hatırla</Text>
           </View>
 
@@ -241,7 +276,7 @@ export default function SignInScreen({navigation}) {
             mode="outlined"
             label="Password"
             secureTextEntry={passwordVisibility}
-            onChangeText={setPassword}
+            onChangeText={text => setPasswordRegister(text)}
             right={
               <TextInput.Icon
                 icon={eyeIcon}
@@ -295,6 +330,16 @@ const styles = StyleSheet.create({
     color: '#1B366A',
     marginBottom: 20,
   },
+  checkbox: {
+    borderWidth: 2,
+    height: 27,
+    width: 27,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#0063A9',
+  },
+
   container2: {
     marginHorizontal: 'auto',
     marginTop: 10,
@@ -331,6 +376,7 @@ const styles = StyleSheet.create({
   },
   checkboxText: {
     marginLeft: 12,
+    color: '#0063A9',
   },
   forgotPasswordButton: {
     marginHorizontal: 'auto',

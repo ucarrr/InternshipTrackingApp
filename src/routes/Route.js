@@ -9,6 +9,7 @@ import SplashScreen from '../screens/SplashScreen';
 import CalenderScreen from '../screens/CalenderScreen';
 import Calender from '../components/Calender';
 import Questions from '../screens/QuestionsScreen';
+import FaqScreen from '../screens/FaqScreen';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -37,6 +38,7 @@ export default function Route({navigation}) {
         <Stack.Screen name="Calender" component={Calender} />
         <Stack.Screen name="StepDetailScreen" component={StepDetailScreen} />
         <Stack.Screen name="Questions" component={Questions} />
+        <Stack.Screen name="FaqScreen" component={FaqScreen} />
         <Stack.Screen
           options={{headerShown: false}}
           name="HomeScreen"

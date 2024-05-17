@@ -90,10 +90,11 @@ export default function StepDetailScreen({navigation, route}) {
         <FlatList
           style={styles.listStyle}
           data={stepDetails}
+          keyExtractor={item => item._id}
           renderItem={({item, index}) => (
             <Item title={item.title} index={index} />
           )}
-          keyExtractor={item => item.id}
+          
         />
       </SafeAreaView>
     </>

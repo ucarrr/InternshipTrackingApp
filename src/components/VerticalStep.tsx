@@ -19,6 +19,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import axios from 'axios';
 import {URLs, databases} from '../services/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowWidth = Dimensions.get('window').width;
 const widthContent = windowWidth * 0.7;
@@ -107,12 +108,20 @@ export default function VerticalStep() {
   }, []);
   const fetchData = async () => {
     try {
-      const url = URLs.BASE_URL + databases.STEP;
+
+     /*  const url = URLs.BASE_URL + databases.STEP;
       const response = await axios.get(url);
-      console.log('Data:', response.data);
-      setStepData(response.data);
-      console.log('Step Data:', stepData);
-      return response.data; // Verileri döndürür
+      console.log('Data:', response.data); */
+
+      const userDataString = await AsyncStorage.getItem('userDataResponse');   
+      const userData = userDataString ? JSON.parse(userDataString) : null;  
+      
+      console.log('User Profileee:', userData.steps);   
+     
+      setStepData(userData.steps);
+
+      //console.log('Step Data:', stepData);
+      return userData.steps;  
     } catch (error) {
       console.error('Error fetching posts:', error);
       throw error; // Hata yönetimi için hatayı fırlat

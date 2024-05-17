@@ -13,20 +13,9 @@ import Icon2 from 'react-native-vector-icons/FontAwesome';
 import {Dimensions} from 'react-native';
 import axios from 'axios';
 import {URLs, databases} from '../services/index';
+import ExpandableList from '../components/ExpandableList'
 
-const documentCollection = [
-  {
-    id: 1,
-    text: ' Bir şirketin staja uygun olabilmesi için sahip olması gereken özellikler?',
-  },
-  {
-    id: 2,
-    text: 'Staj süresince öğrencinin yapması gerekenler maddeler halinde nelerdir?',
-  },
-  {id: 3, text: 'Puantaj belgesi en geç ayın kaçında verilmeli?'},
-  {id: 4, text: 'Staj raporunda olması zorunlu şeyler nelerdir?'},
-  {id: 5, text: 'Uzaktan yapılan stajlarda belge teslimi nasıl yapılmalıdır?'},
-];
+
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -94,9 +83,10 @@ export default function QuestionsScreen({navigation}) {
 
   return (
     <View style={styles.container}>
+
       <View style={styles.header}>
         <Text style={styles.headerText}>Questions</Text>
-        <TouchableRipple onPress={() => {}}>
+        <TouchableRipple onPress={() => {navigation.navigate('FaqScreen')}}>
           <View style={styles.subtitle}>
             <Text style={styles.subtitleText}>Favorites</Text>
             <Icon name="heart" color="#DB6D2D" size={25} />
@@ -105,6 +95,7 @@ export default function QuestionsScreen({navigation}) {
       </View>
 
       <View style={[styles.searchContainer, {width: windowWidth * 0.9}]}>
+
         <Searchbar
           theme={{colors: {primary: 'green'}}}
           placeholder="Search"
@@ -118,11 +109,9 @@ export default function QuestionsScreen({navigation}) {
           placeholderTextColor={'#0063A9'}
         />
       </View>
-      <FlatList
-        data={searchQuery ? searchResults : favoritesData}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+
+      <ExpandableList data={searchQuery ? searchResults : favoritesData} /> 
+     
     </View>
   );
 }
