@@ -1,20 +1,17 @@
-import React,{useState, useEffect} from 'react'
-import { StyleSheet, Text, View,Dimensions } from 'react-native' 
-import { SafeAreaView } from 'react-native-safe-area-context'
-import ExpandableList from '../components/ExpandableList'
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, Text, View, Dimensions} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import ExpandableList from '../components/ExpandableList';
 import axios from 'axios';
 import {URLs, databases} from '../services/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Appbar} from 'react-native-paper';
 
-
 const windowWidth = Dimensions.get('window').width;
 const widthContent = windowWidth * 0.9;
 const widthFav = windowWidth * 0.2;
 
-
 export default function FaqScreen({navigation, route}) {
-
   const [userFaq, setUserFaq] = useState();
   const [faq, setFaq] = useState();
 
@@ -22,9 +19,6 @@ export default function FaqScreen({navigation, route}) {
   const [searchResults, setSearchResults] = useState([]);
   //const [documents, setDocuments] = useState(documentCollection);
   const [favoritesData, setDataFavorites] = useState([]);
-
-
-
 
   useEffect(() => {
     fetchData();
@@ -43,7 +37,7 @@ export default function FaqScreen({navigation, route}) {
     }
   };
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     fetchUserProfile().then(data => {
       setUserFaq(data);
     }).catch(err => console.log(err));
@@ -65,10 +59,9 @@ export default function FaqScreen({navigation, route}) {
     }
   }; */
 
-
   return (
     <>
-     <Appbar.Header>
+      <Appbar.Header>
         <Appbar.BackAction
           onPress={() => {
             navigation.goBack();
@@ -76,29 +69,26 @@ export default function FaqScreen({navigation, route}) {
         />
         <Appbar.Content title="Detail" />
       </Appbar.Header>
-    <View style={styles.innerContainer}>
-      <ExpandableList data={searchQuery ? searchResults : favoritesData} /> 
-    </View>
+      <View style={styles.innerContainer}>
+        <ExpandableList data={searchQuery ? searchResults : favoritesData} />
+      </View>
     </>
-   
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
-       
-    },
-    innerContainer: {
-      padding:10,
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 30,     
-      justifyContent: 'center',
-      alignSelf:'center',
-       
-    },
-})
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

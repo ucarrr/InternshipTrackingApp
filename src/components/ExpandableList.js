@@ -1,23 +1,27 @@
 import React from 'react';
-import { FlatList, View, Text, StyleSheet } from 'react-native';
+import {FlatList, View, Text, StyleSheet, Dimensions} from 'react-native';
 import ExpandableListItem from './ExpandableListItem';
 
-const ExpandableList = ({ data }) => {
+const windowWidth = Dimensions.get('window').width;
+
+const ExpandableList = ({data}) => {
   // Ensure there is a fallback if data is empty
   if (!data || data.length === 0) {
-    return <View style={styles.centered}><Text>No data available.</Text></View>;
+    return (
+      <View style={styles.centered}>
+        <Text>No data available.</Text>
+      </View>
+    );
   }
 
-  const renderItem = ({ item }) => (
-    <ExpandableListItem item={item} />
-  );
+  const renderItem = ({item}) => <ExpandableListItem item={item} />;
 
   return (
     <FlatList
       data={data}
-      keyExtractor={(item) => item._id.toString()} // Assuming _id is unique and always present
+      keyExtractor={item => item._id.toString()} 
       renderItem={renderItem}
-      scrollEnabled={false}
+     
       style={styles.list}
     />
   );
@@ -26,15 +30,21 @@ const ExpandableList = ({ data }) => {
 // Styles
 const styles = StyleSheet.create({
   list: {
-    backgroundColor: 'transparent',
-    width: '100%',
-   
+    flex: 1,    
+    //backgroundColor: 'transparent',
+    width: windowWidth,   
+    backgroundColor:'red',
+    borderRadius:20,
+    borderColor:'#0063A9',   
+    borderWidth:1,
+ 
+  
   },
   centered: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 export default ExpandableList;

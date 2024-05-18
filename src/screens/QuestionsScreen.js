@@ -12,36 +12,31 @@ import {Searchbar, TouchableRipple} from 'react-native-paper';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 import {Dimensions} from 'react-native';
 import axios from 'axios';
-import {URLs, databases} from '../services/index';
-import ExpandableList from '../components/ExpandableList'
-
-
+import {URLs, databases, USER} from '../services/index';
+import ExpandableList from '../components/ExpandableList';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowWidth = Dimensions.get('window').width;
-
-const findSectionsWithTerm = (term, faq) => {
-  const sections = faq.split('\n\n');
-  return sections.filter(section =>
-    section.toLowerCase().includes(term.toLowerCase()),
-  );
-};
 
 export default function QuestionsScreen({navigation}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   //const [documents, setDocuments] = useState(documentCollection);
-  const [favoritesData, setDataFavorites] = useState([]);
+  const [fabData, setDatafab] = useState([]);
 
   useEffect(() => {
     fetchData();
+     
+
   }, []);
   const fetchData = async () => {
-    try {
+    try {      
+
       const url = URLs.BASE_URL + databases.FAQ;
       const response = await axios.get(url);
       console.log('Data:', response.data);
-      setDataFavorites(response.data);
-      console.log('Faq Data:', favoritesData);
+      setDatafab(response.data);
+      console.log('Faq Data:', fabData);
       return response.data;
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -49,44 +44,23 @@ export default function QuestionsScreen({navigation}) {
     }
   };
 
+
   const handleSearch = text => {
     setSearchQuery(text);
-    const results = favoritesData.filter(doc =>
-      doc.text.toLowerCase().includes(text.toLowerCase()),
+    const results = fabData.filter(doc =>
+      doc.question.toLowerCase().includes(text.toLowerCase()),
     );
     setSearchResults(results);
   };
 
-  const toggleFavorite = id => {
-    const updatedResults = searchResults.map(item => {
-      if (item.id === id) {
-        return {...item, favorite: !item.favorite};
-      }
-      return item;
-    });
-    setSearchResults(updatedResults);
-  };
-
-  const renderItem = ({item}) => (
-    <View key={item.id} style={styles.item}>
-      <Text style={styles.documentText}>{item.question}</Text>
-      <TouchableOpacity onPress={() => toggleFavorite(item.id)}>
-        <Icon
-          style={styles.icon}
-          name={item.favorite ? 'heart' : 'hearto'}
-          size={24}
-          color={item.favorite ? '#DB6D2D' : '#0063A9'}
-        />
-      </TouchableOpacity>
-    </View>
-  );
-
   return (
     <View style={styles.container}>
-
       <View style={styles.header}>
         <Text style={styles.headerText}>Questions</Text>
-        <TouchableRipple onPress={() => {navigation.navigate('FaqScreen')}}>
+        <TouchableRipple
+          onPress={() => {
+            navigation.navigate('FaqScreen');
+          }}>
           <View style={styles.subtitle}>
             <Text style={styles.subtitleText}>Favorites</Text>
             <Icon name="heart" color="#DB6D2D" size={25} />
@@ -95,7 +69,6 @@ export default function QuestionsScreen({navigation}) {
       </View>
 
       <View style={[styles.searchContainer, {width: windowWidth * 0.9}]}>
-
         <Searchbar
           theme={{colors: {primary: 'green'}}}
           placeholder="Search"
@@ -110,8 +83,7 @@ export default function QuestionsScreen({navigation}) {
         />
       </View>
 
-      <ExpandableList data={searchQuery ? searchResults : favoritesData} /> 
-     
+      <ExpandableList data={searchQuery ? searchResults : fabData} />
     </View>
   );
 }
@@ -119,16 +91,18 @@ export default function QuestionsScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    backgroundColor: 'white',
+    width: windowWidth,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 30,
-    marginTop: 35,
+    marginBottom: 20,
+    marginTop: 20,
     justifyContent: 'center',
+    width: '100%',
   },
 
   searchInput: {
@@ -158,7 +132,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 15,
     height: 40,
-    marginLeft: 5,
   },
 
   searchButtonText: {
@@ -170,9 +143,10 @@ const styles = StyleSheet.create({
   },
 
   header: {
+    width: '80%',
     marginTop: 20,
-    marginRight: 10,
     justifyContent: 'space-between',
+    alignItems: 'center',
     flexDirection: 'row',
   },
   headerText: {
@@ -219,16 +193,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 5,
     paddingHorizontal: 5,
-    justifyContent: 'space-evenly',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderBlockColor: '#DB6D2D',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   subtitleText: {
     color: '#DB6D2D',
-    marginLeft: 20,
     fontWeight: '600',
     fontSize: 14,
-    lineHeight: 20,
-    paddingRight: 3,
-    marginTop: 6,
+    marginRight: 5,
   },
 });
