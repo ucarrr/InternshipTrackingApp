@@ -1,7 +1,22 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React from 'react';
-
+import React, {useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+ 
 export default function SplashScreen({navigation}) {
+
+  useEffect(() => {
+    const clearUserData = async () => {
+      try {
+        await AsyncStorage.removeItem('userDataResponse');
+        console.log('Specific key has been removed from Async Storage.');
+      } catch (error) {
+        console.error('Failed to remove specific key from Async Storage:', error);
+      }
+    };
+    clearUserData();
+  }, []);
+
+
   setTimeout(() => {
     navigation.navigate('SignIn');
   }, 3000);

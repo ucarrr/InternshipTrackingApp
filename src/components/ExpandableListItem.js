@@ -15,10 +15,11 @@ const windowWidth = Dimensions.get('window').width;
 const widthContent = windowWidth * 0.9;
 const widthFav = windowWidth * 0.2;
 
-const ExpandableListItem = ({item}) => {
+const ExpandableListItem = ({ item, userFavorites,onFavoriteChange }) => {
   const [expanded, setExpanded] = useState(false);
-  const [userId, setUserId] = useState([]);
-  const [favorite, setFavorite] = useState(item.favorite);
+  
+  const [userId, setUserId] = useState(null);
+  const [favorite, setFavorite] = useState(userFavorites.includes(item._id));
 
   console.log(
     'ExpandableListItem: Question' + item.question + ' Answer ' + item.answer,
@@ -40,6 +41,23 @@ const ExpandableListItem = ({item}) => {
       Alert.alert('Error', 'Failed to load user data');
     }
   };
+
+  const handleFavoriteChange = async (faqId, add) => {
+    try {
+      if (add) {
+        await addFavorite(userId, faqId);
+      } else {
+        await removeFavorite(userId, faqId);
+      }
+      const response = await axios.get(`${URLs.BASE_URL}users/${userId}`);
+      console.log("handleFavoriteChange: "+ response)
+      console.log("esponse.data.userFavoriteFaqs: "+ response.data.userFavoriteFaqs)
+      setFavorite(response.data.userFavoriteFaqs);
+    } catch (error) {
+      console.error('Error updating favorite status:', error);
+    }
+  };
+
 
   // Favori ekle
   const addFavorite = async (userId, faqId) => {
@@ -81,9 +99,9 @@ const ExpandableListItem = ({item}) => {
 
     try {
       if (favorite) {
-        await removeFavorite(userId, faqId);
+        await handleFavoriteChange(item._id, false);
       } else {
-        await addFavorite(userId, faqId);
+        await handleFavoriteChange(item._id, true);
       }
       setFavorite(!favorite);
     } catch (error) {

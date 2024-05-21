@@ -25,6 +25,9 @@ export default function SignInScreen({navigation}) {
   const [eyeIcon, setEyeIcon] = useState('eye');
 
   useEffect(() => {
+    //AsyncStorage.clear()  
+
+
     const loadCredentials = async () => {
       try {
         const credentialsString = await AsyncStorage.getItem('userCredentials');

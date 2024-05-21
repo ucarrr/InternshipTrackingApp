@@ -8,8 +8,11 @@ import StepDetailScreen from '../screens/StepDetailScreen';
 import SplashScreen from '../screens/SplashScreen';
 import CalenderScreen from '../screens/CalenderScreen';
 import Calender from '../components/Calender';
-import Questions from '../screens/QuestionsScreen';
-import FaqScreen from '../screens/FaqScreen';
+import FAQScreen from '../screens/FAQScreen';
+import FavoriteFaqScreen from '../screens/FavoriteFaqScreen';
+
+//Context
+import {FavoriteFAQProvider} from '../context/FavoriteFAQContext';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -25,38 +28,43 @@ const Stack = createNativeStackNavigator();
 
 export default function Route({navigation}) {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="SplashScreen"
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen name="SignIn" component={SignInScreen} />
+    <FavoriteFAQProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="SplashScreen"
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <Stack.Screen name="SignIn" component={SignInScreen} />
 
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="CalenderScreen" component={CalenderScreen} />
-        <Stack.Screen name="Calender" component={Calender} />
-        <Stack.Screen name="StepDetailScreen" component={StepDetailScreen} />
-        <Stack.Screen name="Questions" component={Questions} />
-        <Stack.Screen name="FaqScreen" component={FaqScreen} />
-        <Stack.Screen
-          options={{headerShown: false}}
-          name="HomeScreen"
-          component={HomeScreen}
-        />
-        <Stack.Screen name="SplashScreen" component={SplashScreen} />
-        <Stack.Screen
-          options={{headerShown: false}}
-          name="Home"
-          component={MyTabs}
-        />
-        {/*  <Stack.Screen
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="CalenderScreen" component={CalenderScreen} />
+          <Stack.Screen name="Calender" component={Calender} />
+          <Stack.Screen name="StepDetailScreen" component={StepDetailScreen} />
+          <Stack.Screen name="FAQScreen" component={FAQScreen} />
+          <Stack.Screen
+            name="FavoriteFaqScreen"
+            component={FavoriteFaqScreen}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="HomeScreen"
+            component={HomeScreen}
+          />
+          <Stack.Screen name="SplashScreen" component={SplashScreen} />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="Home"
+            component={MyTabs}
+          />
+          {/*  <Stack.Screen
           options={{headerShown: false}}
           name="SignInScreen"
           component={TopTabfunc}
         /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </FavoriteFAQProvider>
   );
 }
 
@@ -78,22 +86,17 @@ function MyTabs() {
           borderTopRightRadius: 40,
           borderBottomLeftRadius: 40,
           borderBottomRightRadius: 40,
-          
-          
         },
-        
       }}
-    
       appearance={{
         shadow: true,
         floating: false,
       }}
-      labelStyle={{fontSize: 20,}}
-      >
+      labelStyle={{fontSize: 20}}>
       <Tabs.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{           
+        options={{
           tabBarIcon: ({focused, color, size}) => (
             <MaterialCommunityIcons
               name="home"
@@ -119,8 +122,8 @@ function MyTabs() {
         }}
       />
       <Tabs.Screen
-        name="Questions"
-        component={Questions}
+        name="FAQScreen"
+        component={FAQScreen}
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <MaterialCommunityIcons
