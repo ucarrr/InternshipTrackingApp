@@ -15,7 +15,7 @@ const windowWidth = Dimensions.get('window').width;
 const widthContent = windowWidth * 0.9;
 const widthFav = windowWidth * 0.2;
 
-const ExpandableListItem = ({ item, userFavorites,onFavoriteChange }) => {
+const ExpandableListItem = ({ item, userFavorites }) => {
   const [expanded, setExpanded] = useState(false);
   
   const [userId, setUserId] = useState(null);

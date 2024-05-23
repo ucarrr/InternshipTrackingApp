@@ -27,14 +27,21 @@ export default function FAQScreen({navigation}) {
   const [userId, setUserId] = useState('');
 
   useEffect(() => {
-    fetchUserInfo();
+    fetchUserInfo();   
   }, []);
+
+
+
+ 
+
+
   const fetchData = async () => {
     try {
       const url = URLs.BASE_URL + databases.FAQ;
       const response = await axios.get(url);
-      console.log('Data:', response.data);
+      console.log('Dataa:', response.data);
       setDatafab(response.data);
+
       console.log('Faq Data:', fabData);
       return response.data;
     } catch (error) {
@@ -48,9 +55,20 @@ export default function FAQScreen({navigation}) {
       const userDataString = await AsyncStorage.getItem('userDataResponse');
       const userData = userDataString ? JSON.parse(userDataString) : null;
 
-      setUserFavorites(userData.userFavoriteFaqs);
-      console.log('userData.data:' + userData.userFavoriteFaqs);
-      console.log('user faq favorite:' + userFavorites);
+      console.log('QUESTION USER ID: ' + userData._id);
+      setUserId(userData._id);
+      //
+
+      const userUrl = `${URLs.BASE_URL}users/${userData._id}`;
+      console.log('User URL:', userUrl);
+      const userResponse = await axios.get(userUrl);
+      console.log('User Data Ques:', userResponse.data.userFavoriteFaqs);
+      console.log('userDataAsy.data:' + userData.userFavoriteFaqs);
+      setUserFavorites(userResponse.data.userFavoriteFaqs);
+      //
+      //setUserFavorites(userData.userFavoriteFaqs);
+      //console.log('userData.data:' + userData.userFavoriteFaqs);
+      //console.log('user faq favorite:' + userFavorites);
       fetchData();
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -66,14 +84,13 @@ export default function FAQScreen({navigation}) {
     setSearchResults(results);
   };
 
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Questions</Text>
         <TouchableRipple
           onPress={() => {
-            navigation.navigate('FavoriteFaqScreen' , {userFavorites});
+            navigation.navigate('FavoriteFaqScreen', {userId});
           }}>
           <View style={styles.subtitle}>
             <Text style={styles.subtitleText}>Favorites</Text>
@@ -100,7 +117,6 @@ export default function FAQScreen({navigation}) {
       <ExpandableList
         data={searchQuery ? searchResults : fabData}
         userFavorites={userFavorites}
-       
       />
     </View>
   );
