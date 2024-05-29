@@ -12,7 +12,7 @@ import FAQScreen from '../screens/FAQScreen';
 import FavoriteFaqScreen from '../screens/FavoriteFaqScreen';
 
 //Context
-import {FavoriteFAQProvider} from '../context/FavoriteFAQContext';
+import {FavoritesProvider} from '../context/FavoriteFAQContext';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -28,43 +28,38 @@ const Stack = createNativeStackNavigator();
 
 export default function Route({navigation}) {
   return (
-    <FavoriteFAQProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="SplashScreen"
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="SignIn" component={SignInScreen} />
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="SplashScreen"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="SignIn" component={SignInScreen} />
 
-          <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="CalenderScreen" component={CalenderScreen} />
-          <Stack.Screen name="Calender" component={Calender} />
-          <Stack.Screen name="StepDetailScreen" component={StepDetailScreen} />
-          <Stack.Screen name="FAQScreen" component={FAQScreen} />
-          <Stack.Screen
-            name="FavoriteFaqScreen"
-            component={FavoriteFaqScreen}
-          />
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="HomeScreen"
-            component={HomeScreen}
-          />
-          <Stack.Screen name="SplashScreen" component={SplashScreen} />
-          <Stack.Screen
-            options={{headerShown: false}}
-            name="Home"
-            component={MyTabs}
-          />
-          {/*  <Stack.Screen
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="CalenderScreen" component={CalenderScreen} />
+        <Stack.Screen name="Calender" component={Calender} />
+        <Stack.Screen name="StepDetailScreen" component={StepDetailScreen} />
+        <Stack.Screen name="FAQScreen" component={FAQScreen} />
+        <Stack.Screen name="FavoriteFaqScreen" component={FavoriteFaqScreen} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="HomeScreen"
+          component={HomeScreen}
+        />
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Home"
+          component={MyTabs}
+        />
+        {/*  <Stack.Screen
           options={{headerShown: false}}
           name="SignInScreen"
           component={TopTabfunc}
         /> */}
-        </Stack.Navigator>
-      </NavigationContainer>
-    </FavoriteFAQProvider>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

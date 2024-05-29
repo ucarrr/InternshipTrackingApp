@@ -16,8 +16,7 @@ const widthContent = windowWidth * 0.9;
 const widthFav = windowWidth * 0.2;
 
 const ExpandableListItem = ({ item, userFavorites }) => {
-  const [expanded, setExpanded] = useState(false);
-  
+  const [expanded, setExpanded] = useState(false);  
   const [userId, setUserId] = useState(null);
   const [favorite, setFavorite] = useState(userFavorites.includes(item._id));
 
@@ -26,8 +25,14 @@ const ExpandableListItem = ({ item, userFavorites }) => {
   );
 
   useEffect(() => {
+    console.log("ExpandableListItem ")
     fetchUserInfo();
   }, []);
+
+  useEffect(() => {
+    console.log("ExpandableListItem setFavorite")
+    setFavorite(userFavorites.includes(item._id));
+  }, [userFavorites]);
   const fetchUserInfo = async () => {
     try {
       const userDataString = await AsyncStorage.getItem('userDataResponse');

@@ -35,12 +35,12 @@ const ExpandableList = ({data, userFavorites}) => {
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-    //backgroundColor: 'transparent',
+    backgroundColor: 'transparent',
     width: windowWidth,
-    backgroundColor: 'red',
+    //backgroundColor: 'white',
     borderRadius: 20,
     borderColor: '#0063A9',
-    borderWidth: 1,
+    //borderWidth: 1,
   },
   centered: {
     flex: 1,
