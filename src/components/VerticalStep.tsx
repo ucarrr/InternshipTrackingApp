@@ -1,24 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
   TouchableHighlight,
   Pressable,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
-
 import StepIndicator from 'react-native-step-indicator';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {Dimensions} from 'react-native';
-import CompletedButton from './CompletedButton';
+import { Dimensions } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useNavigation} from '@react-navigation/native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
-import {URLs, databases} from '../services/index';
+import { URLs } from '../services/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowWidth = Dimensions.get('window').width;
@@ -26,129 +23,98 @@ const widthContent = windowWidth * 0.7;
 const widthContent2 = windowWidth * 0.5;
 const width = windowWidth * 1.0;
 
-const labels = [
-  'Staj için uygun işyeri bulunur',
-  'Zorunlu staj formu doldurulur',
-  'Staja başlanır',
-  'Staj raporu',
-  'Turnitin orijinallik raporu alınır',
-  'Teslim',
-];
-
-const labels2 = [
-  {text: 'Staj için uygun işyeri bulunur', completed: false, uncompleted: true},
-  {text: 'Zorunlu staj formu doldurulur', completed: false, uncompleted: true},
-  {text: 'Staja başlanır', completed: false, uncompleted: true},
-  {text: 'Staj raporu', completed: false, uncompleted: true},
-  {
-    text: 'Turnitin orijinallik raporu alınır',
-    completed: false,
-    uncompleted: true,
-  },
-  {text: 'Teslim', completed: false},
-];
-
 const indicatorStyles = {
   stepIndicatorSize: 30,
   currentStepIndicatorSize: 40,
   separatorStrokeWidth: 1,
   currentStepStrokeWidth: 5,
-  stepStrokeCurrentColor: '#0063A9', // Şu anki adımın çizgi rengi
+  stepStrokeCurrentColor: '#0063A9',
   stepStrokeWidth: 3,
   separatorStrokeFinishedWidth: 4,
-  stepStrokeFinishedColor: '#0063A9', // Tamamlanmış adımların çizgi rengi
-  stepStrokeUnFinishedColor: '#aaaaaa', // Tamamlanmamış adımların çizgi rengi
-  separatorFinishedColor: '#0063A9', // Tamamlanmış adımlar arasındaki ayırıcı çizgi rengi
-  separatorUnFinishedColor: '#aaaaaa', // Tamamlanmamış adımlar arasındaki ayırıcı çizgi rengi
-  stepIndicatorFinishedColor: '#0063A9', // Tamamlanmış adım göstergesinin rengi
-  stepIndicatorUnFinishedColor: '#ffffff', // Tamamlanmamış adım göstergesinin rengi
-  stepIndicatorCurrentColor: '#ffffff', // Şu anki adım göstergesinin rengi
-  stepIndicatorLabelFontSize: 20, // Adım göstergesi etiketlerinin font boyutu
-  currentStepIndicatorLabelFontSize: 50, // Şu anki adım göstergesi etiketinin font boyutu
-  stepIndicatorLabelCurrentColor: '#0063A9', // Şu anki adım göstergesi etiketinin rengi
-  stepIndicatorLabelFinishedColor: '#ffffff', // Tamamlanmış adım göstergesi etiketinin rengi
-  stepIndicatorLabelUnFinishedColor: '#aaaaaa', // Tamamlanmamış adım göstergesi etiketinin rengi
-  labelColor: '#999999', // Etiketlerin rengi
-  labelSize: 18, // Etiketlerin font boyutu
-  currentStepLabelColor: '#0063A9', // Şu anki adımın etiket rengi
+  stepStrokeFinishedColor: '#0063A9',
+  stepStrokeUnFinishedColor: '#aaaaaa',
+  separatorFinishedColor: '#0063A9',
+  separatorUnFinishedColor: '#aaaaaa',
+  stepIndicatorFinishedColor: '#0063A9',
+  stepIndicatorUnFinishedColor: '#ffffff',
+  stepIndicatorCurrentColor: '#ffffff',
+  stepIndicatorLabelFontSize: 20,
+  currentStepIndicatorLabelFontSize: 50,
+  stepIndicatorLabelCurrentColor: '#0063A9',
+  stepIndicatorLabelFinishedColor: '#ffffff',
+  stepIndicatorLabelUnFinishedColor: '#aaaaaa',
+  labelColor: '#999999',
+  labelSize: 18,
+  currentStepLabelColor: '#0063A9',
 };
-const getStepIndicatorIconConfig = ({
-  position,
-  stepStatus,
-}: {
-  position: number;
-  stepStatus: string;
-}) => {
+
+const getStepIndicatorIconConfig = ({ position, stepStatus }) => {
   const iconConfig = {
     name: 'check',
     color: stepStatus === 'finished' ? '#ffffff' : '#0063A9',
     size: 15,
   };
 
-  iconConfig.name = 'check';
-
-  return iconConfig;
+  return <MaterialIcons name={iconConfig.name} color={iconConfig.color} size={iconConfig.size} />;
 };
 
 export default function VerticalStep() {
   const [currentPage, setCurrentPage] = useState(0);
-  const [hovered, setHovered] = useState(false);
-
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [completedSteps, setCompletedSteps] = useState(
-    Array(labels.length).fill(false),
-  );
-
   const navigation = useNavigation();
-
   const [stepData, setStepData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userDataString = await AsyncStorage.getItem('userDataResponse');
+        if (!userDataString) {
+          console.log('No user data found');
+          setLoading(false);
+          return;
+        }
+        const userData = JSON.parse(userDataString);
+        const userUrl = `${URLs.BASE_URL}users/${userData._id}`;
+        const userSteps = await axios.get(userUrl);
+        const steps = userSteps.data.steps.map(step => ({
+          ...step,
+          stepDetails: step.stepDetails.map(detail => ({
+            ...detail,
+            isCompleted: detail.isCompleted === true // Ensure it is boolean
+          }))
+        }));
+        console.log('Fetched steps:', steps);
+        setStepData(steps);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
   }, []);
-  const fetchData = async () => {
-    try {
 
-     /*  const url = URLs.BASE_URL + databases.STEP;
-      const response = await axios.get(url);
-      console.log('Data:', response.data); */
+  useEffect(() => {
+    console.log("stepData length:", stepData.length);
+  }, [stepData]);
 
-      const userDataString = await AsyncStorage.getItem('userDataResponse');   
-      const userData = userDataString ? JSON.parse(userDataString) : null;  
-      
-      console.log('User Profileee:', userData.steps);   
-     
-      setStepData(userData.steps);
-
-      //console.log('Step Data:', stepData);
-      return userData.steps;  
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-      throw error; // Hata yönetimi için hatayı fırlat
+  const goToDetails = (position, stepDetails, stepId) => {
+    if (position > 0 && !stepData[position - 1].stepDetails.every(detail => detail.isCompleted)) {
+      alert('Complete the previous step first.');
+      return;
     }
+    navigation.navigate('StepDetailScreen', { stepIndex: position, stepDetails, stepId });
   };
 
-  /*   const handleItemCompletion = () => {
-    setIsCompleted(true);
-  }; */
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container2}>
+        <ActivityIndicator size="large" color="#0063A9" />
+      </SafeAreaView>
+    );
+  }
 
-  const onStepPress = (position: number) => {
-    setCurrentPage(position);
-    setIsCompleted(true);
-    const updatedCompletedSteps = [...completedSteps]; // Mevcut durumun bir kopyasını oluşturun
-    updatedCompletedSteps[position] = true; // Seçilen pozisyonu true olarak ayarlayın
-    setCompletedSteps(updatedCompletedSteps); // Güncellenmiş durumu ayarlayın
-  };
-
-  const renderStepIndicator = (params: any) => (
-    <MaterialIcons {...getStepIndicatorIconConfig(params)} />
-  );
-
-  const goToDetails = (position: number, stepDetails: any) => {
-    navigation.navigate('StepDetailScreen', {stepIndex: position, stepDetails});
-    console.log(`Label ${position + 1} pressed`);
-    // Burada label tıklandığında gerçekleştirilecek işlemler yer alacak
-  };
   return (
     <SafeAreaView style={styles.container2}>
       <Text style={styles.headerText}>ÇİZELGE</Text>
@@ -162,47 +128,38 @@ export default function VerticalStep() {
             flexDirection: 'row',
           }}>
           <View style={styles.stepIndicator}>
-            <StepIndicator
-              customStyles={indicatorStyles}
-              stepCount={6}
-              direction="vertical"
-              currentPosition={currentPage}
-              onPress={onStepPress}
-              renderStepIndicator={renderStepIndicator}
-              labels={stepData.map((item, index) => (
-                <View style={styles.content}>
-                  <View style={styles.content2}>
-                    <Text style={styles.labelIndex}>Step {index + 1}</Text>
-                    <TouchableHighlight
-                      activeOpacity={0.6}
-                      underlayColor="'rgb(210, 230, 255)' : 'white',"
-                      key={index}
-                      onPress={() => goToDetails(index, item.stepDetails)}
-                      style={[styles.labelContainer]}>
-                      <Text style={styles.label}>{item.title}</Text>
-                    </TouchableHighlight>
-
-                    {/*  {completedSteps.length > index && completedSteps[index] ? (
-                <Text>Öğe tamamlandı</Text>
-              ) : (
-                <Text>Öğe devam ediyor</Text>
-              )} */}
-                    {/*  {currentPage === index ? (
-                <Text>Öğe devam ediyor</Text>
-              ) : currentPage > index ? (
-                <Text>Öğe tamamlandı</Text>
-              ) : null} */}
+            {stepData.length > 0 ? (
+              <StepIndicator
+                customStyles={indicatorStyles}
+                stepCount={stepData.length}
+                direction="vertical"
+                currentPosition={currentPage}
+                renderStepIndicator={getStepIndicatorIconConfig}
+                labels={stepData.map((item, index) => (
+                  <View key={index} style={styles.content}>
+                    <View style={styles.content2}>
+                      <Text style={styles.labelIndex}>Step {index + 1}</Text>
+                      <TouchableHighlight
+                        activeOpacity={0.6}
+                        underlayColor="'rgb(210, 230, 255)' : 'white',"
+                        onPress={() => goToDetails(index, item.stepDetails, item._id)}
+                        style={[styles.labelContainer]}>
+                        <Text style={styles.label}>{item.title}</Text>
+                      </TouchableHighlight>
+                    </View>
+                    <Pressable onPress={() => goToDetails(index, item.stepDetails, item._id)}>
+                      <MaterialCommunityIcons
+                        name={'chevron-right'}
+                        size={20}
+                        color={'blue'}
+                      />
+                    </Pressable>
                   </View>
-                  <Pressable  onPress={() => goToDetails(index, item.stepDetails)}>
-                    <MaterialCommunityIcons
-                      name={'chevron-right'}
-                      size={20}
-                      color={'blue'}
-                    />
-                  </Pressable>
-                </View>
-              ))}
-            />
+                ))}
+              />
+            ) : (
+              <Text>No steps found</Text>
+            )}
           </View>
         </ScrollView>
       </View>
@@ -273,7 +230,7 @@ const styles = StyleSheet.create({
   },
   label: {
     textAlign: 'left',
-    color: '#007ad1', //0080db
+    color: '#007ad1',
     fontSize: 16,
     fontWeight: '500',
   },

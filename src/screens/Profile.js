@@ -63,6 +63,13 @@ export default function Profile({navigation}) {
 
   const { open } = state;
 
+  const logout = async () => {
+    await AsyncStorage.clear()
+    console.log("Logout");
+    await navigation.navigate("SignIn") 
+     
+  };
+
   return (
    <SafeAreaView style={styles.container}>
     <StatusBar backgroundColor="#000" barStyle="light-content" />
@@ -144,7 +151,7 @@ export default function Profile({navigation}) {
           <Text style={styles.menuItemText}>Settings</Text>
         </View>
       </TouchableRipple>
-      <TouchableRipple onPress={() => navigation.navigate("SignIn")}>
+      <TouchableRipple onPress={() => logout()}>
         <View style={styles.menuItem}>
           <Icon1 name='logout' color='#0063A9' size={25}/>
           <Text style={styles.menuItemText}>Logout</Text>
