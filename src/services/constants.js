@@ -1,5 +1,5 @@
 export const URLs = {
-    BASE_URL : 'http://10.0.2.2:3000/api/',
+    BASE_URL : 'https://internship-tracking-nest-js-backend.onrender.com/api/',
     
 }
 //BASE_URL : 'http://10.0.2.2:3000/api/',

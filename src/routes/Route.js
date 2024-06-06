@@ -102,7 +102,7 @@ function MyTabs() {
           ),
         }}
       />
-      <Tabs.Screen
+     {/*  <Tabs.Screen
         name="Calender"
         component={CalenderScreen}
         options={{
@@ -115,7 +115,7 @@ function MyTabs() {
             />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="FAQScreen"
         component={FAQScreen}
