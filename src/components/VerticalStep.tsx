@@ -12,7 +12,7 @@ import StepIndicator from 'react-native-step-indicator';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Dimensions } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from 'axios';
 import { URLs } from '../services/index';
@@ -63,6 +63,7 @@ export default function VerticalStep() {
   const navigation = useNavigation();
   const [stepData, setStepData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,11 +81,17 @@ export default function VerticalStep() {
           ...step,
           stepDetails: step.stepDetails.map(detail => ({
             ...detail,
-            isCompleted: detail.isCompleted === true // Ensure it is boolean
+            isCompleted: detail.isCompleted === true 
           }))
         }));
         console.log('Fetched steps:', steps);
         setStepData(steps);
+        // Progress in step data to calculate the current step
+        // Step Detail is complete
+        const currentStepIndex = steps.findIndex(
+          (step) => !step.stepDetails.every((detail) => detail.isCompleted)
+        );
+        setCurrentPage(currentStepIndex === -1 ? steps.length - 1 : currentStepIndex);
       } catch (error) {
         console.error('Error fetching posts:', error);
       } finally {
@@ -92,19 +99,23 @@ export default function VerticalStep() {
       }
     };
 
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    console.log("stepData length:", stepData.length);
-  }, [stepData]);
+    if (isFocused) {
+      fetchData();
+    }
+  }, [isFocused]);
 
   const goToDetails = (position, stepDetails, stepId) => {
-    if (position > 0 && !stepData[position - 1].stepDetails.every(detail => detail.isCompleted)) {
-      alert('Complete the previous step first.');
-      return;
-    }
     navigation.navigate('StepDetailScreen', { stepIndex: position, stepDetails, stepId });
+  };
+
+  const getStepStatus = (index) => {
+    if (index < currentPage) {
+      return 'finished';
+    }
+    if (index === currentPage) {
+      return 'current';
+    }
+    return 'unfinished';
   };
 
   if (loading) {

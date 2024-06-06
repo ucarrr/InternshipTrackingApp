@@ -27,17 +27,12 @@ export default function StepDetailScreen({ navigation, route }) {
         const userDataString = await AsyncStorage.getItem('userDataResponse');
         const userData = userDataString ? JSON.parse(userDataString) : null;
 
-        // Log user data and stepId
-        console.log("User Data: ", userData);
-        console.log("Step ID: ", stepId);
-
         const userUrl = `${URLs.BASE_URL}users/${userData._id}/steps/${stepId}`;
-        console.log("Fetching step details from: ", userUrl);
         const response = await axios.get(userUrl);
         const step = response.data;
         const details = step.stepDetails.map(detail => ({
           ...detail,
-          isCompleted: detail.isCompleted === true // Ensure it is boolean
+          isCompleted: detail.isCompleted === true  
         }));
         setStepDetails(details);
         setChecked(details.map(detail => detail.isCompleted));
@@ -64,6 +59,11 @@ export default function StepDetailScreen({ navigation, route }) {
       const response = await axios.put(userUrl, { isCompleted: isChecked });
       console.log("Step Detail Response: ", JSON.stringify(response.data, null, 2));
       console.log(`Updated step detail ${index + 1} to ${isChecked}`);
+
+      // Eğer tüm step detayları tamamlandıysa, currentPage'i artır
+      if (updatedChecked.every((item) => item)) {
+        //navigation.goBack();
+      }
     } catch (error) {
       console.error('Error updating step detail:', error);
     }
