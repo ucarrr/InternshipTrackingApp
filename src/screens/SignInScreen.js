@@ -20,41 +20,65 @@ export default function SignInScreen({navigation}) {
   const [checked, setChecked] = useState(false);
   const [emailTextRegister, setEmailTextRegister] = useState('');
   const [passwordRegister, setPasswordRegister] = useState('');
+  const [confirmPasswordRegister, setConfirmPasswordRegister] = useState('');
 
   const [passwordVisibility, setPasswordVisibility] = useState(true);
   const [eyeIcon, setEyeIcon] = useState('eye');
 
   useEffect(() => {
-    //AsyncStorage.clear()  
-
-
     const loadCredentials = async () => {
       try {
         const credentialsString = await AsyncStorage.getItem('userCredentials');
-        console.log("credentialsString: ",credentialsString)
-        const credentials = credentialsString ? JSON.parse(credentialsString) : null;
-        console.log("credentials: ",credentials)
+        console.log('credentialsString: ', credentialsString);
+        const credentials = credentialsString
+          ? JSON.parse(credentialsString)
+          : null;
+        console.log('credentials: ', credentials);
         if (credentials) {
-          console.log("credentials in if: ",credentials)
-          console.log("credentials.emailTextLogin in if: ",credentials.emailTextLogin)
-          console.log("credentials.emailTextLogin in if: ",credentials.passwordLogin)
+          console.log('credentials in if: ', credentials);
+          console.log(
+            'credentials.emailTextLogin in if: ',
+            credentials.emailTextLogin,
+          );
+          console.log(
+            'credentials.emailTextLogin in if: ',
+            credentials.passwordLogin,
+          );
           setemailTextLogin(credentials.emailTextLogin);
           setPasswordLogin(credentials.passwordLogin);
-          setChecked(true); 
+          setChecked(true);
         }
       } catch (error) {
         console.error('Failed to load credentials', error);
       }
     };
-  
+
     loadCredentials();
-    //handleRegister();
-    //loginUser();
   }, []);
 
   const handleRegister = async () => {
+    if (!emailTextRegister || !passwordRegister || !confirmPasswordRegister) {
+      Alert.alert(
+        'Eksik Bilgi',
+        'Lütfen tüm alanları doldurunuz.',
+        [{text: 'Tamam', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      );
+      return;
+    }
+
+    if (passwordRegister !== confirmPasswordRegister) {
+      Alert.alert(
+        'Hata',
+        'Şifreler uyuşmuyor. Lütfen kontrol edin.',
+        [{text: 'Tamam', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      );
+      return;
+    }
+
     const userData = {
-      email: emailTextRegister,
+      email: emailTextRegister.trim(),
       password: passwordRegister,
     };
     console.log('Gönderilen veriler:', userData);
@@ -67,6 +91,15 @@ export default function SignInScreen({navigation}) {
         userData,
       ); // API'den verileri çekiyoruz.
       console.log('Register response:', response.data);
+
+      // Kayıt işlemi başarılı olduğunda alert göster
+      Alert.alert(
+        'Başarılı',
+        'Kayıt işlemi başarıyla tamamlandı.',
+        [{text: 'Tamam', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      );
+
       return response.data;
     } catch (error) {
       console.error('Error registering user:', error);
@@ -74,14 +107,49 @@ export default function SignInScreen({navigation}) {
     }
   };
 
+  const handleLoginError = error => {
+    let errorMessage =
+      'Giriş yaparken bilinmeyen bir hata meydana geldi. Lütfen tekrar deneyin.';
+
+    if (error.response && error.response.data) {
+      if (typeof error.response.data === 'string') {
+        errorMessage = error.response.data;
+      } else if (error.response.data.message) {
+        if (Array.isArray(error.response.data.message)) {
+          errorMessage = error.response.data.message.join(', ');
+        } else {
+          errorMessage = error.response.data.message;
+        }
+      }
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
+    Alert.alert(
+      'Giriş Hatası',
+      errorMessage,
+      [{text: 'Tamam', onPress: () => console.log('OK Pressed')}],
+      {cancelable: false},
+    );
+  };
+  
   const loginUser = async (email, password) => {
+    if (!email || !password) {
+      Alert.alert(
+        'Eksik Bilgi',
+        'Lütfen tüm alanları doldurunuz.',
+        [{text: 'Tamam', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      );
+      return;
+    }
     const url = URLs.BASE_URL + databases.LOGIN;
     const userURL = URLs.BASE_URL + databases.ME;
 
     console.log('url veriler:', url);
     try {
       const response = await axios.post(url, {
-        email,
+        email: email.trim(),
         password,
       });
       console.log('Login response:', response.data); // Giriş yanıtını konsola yazdır
@@ -102,41 +170,25 @@ export default function SignInScreen({navigation}) {
       );
 
       console.log('User Profile:', userDataResponse.data);
-      
-      
-      console.log("checked: ", checked)
 
-      if (checked) {   
-        console.log("checked: ", emailTextLogin,passwordLogin)
-        await AsyncStorage.setItem('userCredentials', JSON.stringify({ emailTextLogin, passwordLogin }));
+      console.log('checked: ', checked);
+
+      if (checked) {
+        console.log('checked: ', emailTextLogin, passwordLogin);
+        await AsyncStorage.setItem(
+          'userCredentials',
+          JSON.stringify({emailTextLogin, passwordLogin}),
+        );
+      } else {
+        console.log('unchecked: ', emailTextLogin, passwordLogin);
+        await AsyncStorage.removeItem('userCredentials');
       }
 
       navigation.navigate('Home');
       return userDataResponse.data;
     } catch (error) {
+      handleLoginError(error);
       console.error('Error logging in:', error);
-
-      // Hata mesajını oluşturma
-      let errorMessage =
-        'Giriş yaparken bilinmeyen bir hata meydana geldi. Lütfen tekrar deneyin.';
-
-      if (error.response && error.response.data) {
-        if (typeof error.response.data === 'string') {
-          errorMessage = error.response.data;
-        } else if (error.response.data.message) {
-          errorMessage = error.response.data.message;
-        }
-      } else if (error.message) {
-        errorMessage = error.message;
-      }
-
-      Alert.alert(
-        'Giriş Hatası',
-        errorMessage,
-        [{text: 'Tamam', onPress: () => console.log('OK Pressed')}],
-        {cancelable: false},
-      );
-
       return null;
     }
   };
@@ -156,16 +208,6 @@ export default function SignInScreen({navigation}) {
       setPasswordVisibility(!passwordVisibility);
     }
   };
-
-  /*   function handleEmail(text) {
-    const regex = /^[a-zA-Z0-9._%+-]+@ogr\.akdeniz\.edu\.tr$/;
-    setemailTextLogin(text);
-    if (regex.test(text)) {
-      setEmailVerify(false);
-    } else {
-      setEmailVerify(true);
-    }
-  } */
 
   return (
     <View style={styles.container}>
@@ -242,7 +284,6 @@ export default function SignInScreen({navigation}) {
         </View>
       ) : (
         // content of signup
-        // content of login
         <View style={styles.container2}>
           <TextInput
             style={styles.input}
@@ -277,9 +318,9 @@ export default function SignInScreen({navigation}) {
             outlineColor="#0063A9"
             activeOutlineColor="#0063A9"
             mode="outlined"
-            label="Password"
+            label="Confirm Password"
             secureTextEntry={passwordVisibility}
-            onChangeText={text => setPasswordRegister(text)}
+            onChangeText={text => setConfirmPasswordRegister(text)}
             right={
               <TextInput.Icon
                 icon={eyeIcon}
@@ -303,7 +344,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-
     backgroundColor: '#fff',
   },
   buttonBox: {
@@ -342,7 +382,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#0063A9',
   },
-
   container2: {
     marginHorizontal: 'auto',
     marginTop: 10,
@@ -363,11 +402,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     borderRadius: 50,
-    height: 50,
+    height: 60,
     marginHorizontal: 'auto',
   },
   buttonTextFont: {
     fontSize: 24,
+
     color: '#fff',
   },
   checkboxContainer: {
