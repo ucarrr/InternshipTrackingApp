@@ -5,6 +5,7 @@ import ExpandableList from '../components/ExpandableList';
 import axios from 'axios';
 import { URLs, databases } from '../services/index';
 import { Appbar } from 'react-native-paper';
+import { white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -64,6 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor:'white',
   },
   innerContainer: {
     flex: 1,
