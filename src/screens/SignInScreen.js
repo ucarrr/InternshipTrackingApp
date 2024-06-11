@@ -29,21 +29,12 @@ export default function SignInScreen({navigation}) {
     const loadCredentials = async () => {
       try {
         const credentialsString = await AsyncStorage.getItem('userCredentials');
-        console.log('credentialsString: ', credentialsString);
+
         const credentials = credentialsString
           ? JSON.parse(credentialsString)
           : null;
-        console.log('credentials: ', credentials);
+
         if (credentials) {
-          console.log('credentials in if: ', credentials);
-          console.log(
-            'credentials.emailTextLogin in if: ',
-            credentials.emailTextLogin,
-          );
-          console.log(
-            'credentials.emailTextLogin in if: ',
-            credentials.passwordLogin,
-          );
           setemailTextLogin(credentials.emailTextLogin);
           setPasswordLogin(credentials.passwordLogin);
           setChecked(true);
@@ -56,7 +47,36 @@ export default function SignInScreen({navigation}) {
     loadCredentials();
   }, []);
 
+  const emailValidator = (email) => {
+    // E-posta formatını kontrol etmek için regex
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  
+    // E-posta boşsa hata mesajı döndür
+    if (!email) {
+      return 'E-posta adresi boş bırakılamaz.';
+    }
+  
+    // E-posta formatı geçersizse hata mesajı döndür
+    if (!emailRegex.test(email)) {
+      return 'Geçersiz e-posta adresi.';
+    }
+  
+    // E-posta geçerliyse boş string döndür
+    return '';
+  };
+
   const handleRegister = async () => {
+    const emailError = emailValidator(emailTextRegister);
+    if (emailError) {
+      Alert.alert(
+        'Hata',
+        emailError,
+        [{text: 'Tamam', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      );
+      return;
+    }
+
     if (!emailTextRegister || !passwordRegister || !confirmPasswordRegister) {
       Alert.alert(
         'Eksik Bilgi',
@@ -81,11 +101,11 @@ export default function SignInScreen({navigation}) {
       email: emailTextRegister.trim(),
       password: passwordRegister,
     };
-    console.log('Gönderilen veriler:', userData);
+    //console.log('Gönderilen veriler:', userData);
 
     try {
       const url = URLs.BASE_URL + databases.REGISTER;
-      console.log('url veriler:', url);
+      //console.log('url veriler:', url);
       const response = await axios.post(
         URLs.BASE_URL + databases.REGISTER,
         userData,
@@ -132,7 +152,7 @@ export default function SignInScreen({navigation}) {
       {cancelable: false},
     );
   };
-  
+
   const loginUser = async (email, password) => {
     if (!email || !password) {
       Alert.alert(
@@ -146,19 +166,19 @@ export default function SignInScreen({navigation}) {
     const url = URLs.BASE_URL + databases.LOGIN;
     const userURL = URLs.BASE_URL + databases.ME;
 
-    console.log('url veriler:', url);
+    //console.log('url veriler:', url);
     try {
       const response = await axios.post(url, {
         email: email.trim(),
         password,
       });
-      console.log('Login response:', response.data); // Giriş yanıtını konsola yazdır
+      //console.log('Login response:', response.data); // Giriş yanıtını konsola yazdır
 
       const token = response.data.token;
 
-      console.log('Token-:' + token);
+      //console.log('Token-:' + token);
 
-      console.log('userURL:', userURL);
+      //console.log('userURL:', userURL);
       const userDataResponse = await axios.get(userURL, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -174,7 +194,6 @@ export default function SignInScreen({navigation}) {
       console.log('checked: ', checked);
 
       if (checked) {
-        console.log('checked: ', emailTextLogin, passwordLogin);
         await AsyncStorage.setItem(
           'userCredentials',
           JSON.stringify({emailTextLogin, passwordLogin}),
@@ -218,12 +237,12 @@ export default function SignInScreen({navigation}) {
         <TouchableOpacity
           onPress={handlePressTrue}
           style={[styles.buttonLogin, showLogin && styles.selectedButton]}>
-          <Text>SIGN IN</Text>
+          <Text style={styles.signText}>SIGN IN</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handlePressFalse}
           style={[styles.buttonLogin, !showLogin && styles.selectedButton]}>
-          <Text>SIGN UP</Text>
+          <Text style={styles.signText}>SIGN UP</Text>
         </TouchableOpacity>
       </View>
 
@@ -363,6 +382,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 2,
     borderBottomColor: 'transparent', // Başlangıçta button alt kenar çizgisini gizlendi
+  },
+  signText:{
+    fontSize: 15,
+    color: '#828282',
   },
   selectedButton: {
     borderBottomColor: 'blue', // Seçilen button alt kenar çizgisi mavi olacak
