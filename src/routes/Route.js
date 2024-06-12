@@ -89,7 +89,7 @@ function MyTabs() {
       }}
       labelStyle={{fontSize: 20}}>
       <Tabs.Screen
-        name="HomeScreen"
+        name="Anasayfa"
         component={HomeScreen}
         options={{
           tabBarIcon: ({focused, color, size}) => (
@@ -117,7 +117,7 @@ function MyTabs() {
         }}
       /> */}
       <Tabs.Screen
-        name="FAQScreen"
+        name="SSS"
         component={FAQScreen}
         options={{
           tabBarIcon: ({focused, color, size}) => (

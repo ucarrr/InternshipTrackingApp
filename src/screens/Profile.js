@@ -133,13 +133,13 @@ export default function Profile({navigation}) {
             <Text style={styles.progressTextsBoxTextNumber}>
               {completedSteps}
             </Text>
-            <Text>Completed</Text>
+            <Text style={styles.progressTextsBoxTexttext}>Tamamlanan</Text>
           </View>
           <View style={styles.progressTextsBox}>
             <Text style={styles.progressTextsBoxTextNumber}>
               {remainingSteps}
             </Text>
-            <Text>Remaining</Text>
+            <Text style={styles.progressTextsBoxTexttext}>Kalan</Text>
           </View>
         </View>
 
@@ -163,7 +163,7 @@ export default function Profile({navigation}) {
           <TouchableRipple onPress={logout}>
             <View style={[styles.menuItem, styles.logout]}>
               <Icon1 name="logout" color="#0063A9" size={windowWidth * 0.06} />
-              <Text style={styles.menuItemText}>Logout</Text>
+              <Text style={styles.menuItemText}>Çıkış</Text>
             </View>
           </TouchableRipple>
         </View>
@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
+ 
   progressTextsBox: {
     flexDirection: 'column',
     alignItems: 'center',
@@ -210,11 +211,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 20,
+    width:'40%',
+    
   },
   progressTextsBoxTextNumber: {
     fontSize: windowWidth * 0.05,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     color: '#0063A9',
+  },
+  progressTextsBoxTexttext:{
+    fontSize: windowWidth * 0.03,
+    fontWeight: 'bold',
+    color: '#A7A7A7',
   },
   menuWrapper: {
     flex: 1,

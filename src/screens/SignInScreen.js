@@ -231,18 +231,18 @@ export default function SignInScreen({navigation}) {
   return (
     <View style={styles.container}>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
-      <Text style={styles.title}>InternShip App</Text>
+      <Text style={styles.title}>Staj Rehberi</Text>
 
       <View style={styles.buttonBox}>
         <TouchableOpacity
           onPress={handlePressTrue}
           style={[styles.buttonLogin, showLogin && styles.selectedButton]}>
-          <Text style={styles.signText}>SIGN IN</Text>
+          <Text style={styles.signText}>GİRİŞ</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handlePressFalse}
           style={[styles.buttonLogin, !showLogin && styles.selectedButton]}>
-          <Text style={styles.signText}>SIGN UP</Text>
+          <Text style={styles.signText}>KAYIT</Text>
         </TouchableOpacity>
       </View>
 
@@ -266,7 +266,7 @@ export default function SignInScreen({navigation}) {
             outlineColor="#0063A9"
             activeOutlineColor="#0063A9"
             mode="outlined"
-            label="Password"
+            label="Şifre"
             secureTextEntry={passwordVisibility}
             value={passwordLogin}
             onChangeText={text => setPasswordLogin(text)}
@@ -293,7 +293,7 @@ export default function SignInScreen({navigation}) {
           <TouchableOpacity
             onPress={() => loginUser(emailTextLogin, passwordLogin)}
             style={styles.button}>
-            <Text style={styles.buttonTextFont}>SignIn</Text>
+            <Text style={styles.buttonTextFont}>Giriş</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.forgotPasswordButton}
@@ -320,7 +320,7 @@ export default function SignInScreen({navigation}) {
             outlineColor="#0063A9"
             activeOutlineColor="#0063A9"
             mode="outlined"
-            label="Password"
+            label="Şifre"
             secureTextEntry={passwordVisibility}
             onChangeText={text => setPasswordRegister(text)}
             right={
@@ -337,7 +337,7 @@ export default function SignInScreen({navigation}) {
             outlineColor="#0063A9"
             activeOutlineColor="#0063A9"
             mode="outlined"
-            label="Confirm Password"
+            label="Şifreyi Onayla"
             secureTextEntry={passwordVisibility}
             onChangeText={text => setConfirmPasswordRegister(text)}
             right={
@@ -350,7 +350,7 @@ export default function SignInScreen({navigation}) {
           />
 
           <TouchableOpacity onPress={handleRegister} style={styles.button}>
-            <Text style={styles.buttonTextFont}>SignUp</Text>
+            <Text style={styles.buttonTextFont}>Kayıt Ol</Text>
           </TouchableOpacity>
         </View>
       )}

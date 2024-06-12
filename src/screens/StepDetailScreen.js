@@ -97,7 +97,7 @@ export default function StepDetailScreen({ navigation, route }) {
     <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Detail" />
+        <Appbar.Content title="Detay" />
       </Appbar.Header>
       <SafeAreaView style={styles.container}>
         <FlatList

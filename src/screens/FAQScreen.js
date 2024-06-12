@@ -70,14 +70,14 @@ export default function FAQScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Questions</Text>
+        <Text style={styles.headerText}>Sorular</Text>
         <TouchableRipple
           onPress={() => {
             navigation.navigate('FavoriteFaqScreen', { userId });
           }}
         >
           <View style={styles.subtitle}>
-            <Text style={styles.subtitleText}>Favorites</Text>
+            <Text style={styles.subtitleText}>Favoriler</Text>
             <Icon name="heart" color="#DB6D2D" size={25} />
           </View>
         </TouchableRipple>

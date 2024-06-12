@@ -149,7 +149,7 @@ export default function VerticalStep() {
                 labels={stepData.map((item, index) => (
                   <View key={index} style={styles.content}>
                     <View style={styles.content2}>
-                      <Text style={styles.labelIndex}>Step {index + 1}</Text>
+                      <Text style={styles.labelIndex}>Adım {index + 1}</Text>
                       <TouchableHighlight
                         activeOpacity={0.6}
                         underlayColor="'rgb(210, 230, 255)' : 'white',"

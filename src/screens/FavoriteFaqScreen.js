@@ -49,7 +49,7 @@ export default function FavoriteFaqScreen({ navigation, route }) {
     <>
       <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Favorite FAQs" />
+        <Appbar.Content title="Favori SSS" />
       </Appbar.Header>
       <SafeAreaView style={styles.container}>
         <View style={styles.innerContainer}>

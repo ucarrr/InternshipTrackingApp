@@ -27,7 +27,7 @@ export default function SplashScreen({navigation}) {
         style={styles.tinyLogo}
       />
 
-      <Text style={styles.text}>InternShip App</Text>
+      <Text style={styles.text}>Staj Rehberi</Text>
     </View>
   );
 }
