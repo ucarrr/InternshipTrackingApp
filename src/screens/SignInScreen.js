@@ -47,20 +47,20 @@ export default function SignInScreen({navigation}) {
     loadCredentials();
   }, []);
 
-  const emailValidator = (email) => {
+  const emailValidator = email => {
     // E-posta formatını kontrol etmek için regex
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  
+
     // E-posta boşsa hata mesajı döndür
     if (!email) {
       return 'E-posta adresi boş bırakılamaz.';
     }
-  
+
     // E-posta formatı geçersizse hata mesajı döndür
     if (!emailRegex.test(email)) {
       return 'Geçersiz e-posta adresi.';
     }
-  
+
     // E-posta geçerliyse boş string döndür
     return '';
   };
@@ -256,6 +256,8 @@ export default function SignInScreen({navigation}) {
             activeOutlineColor="#0063A9"
             mode="outlined"
             label="Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
             value={emailTextLogin}
             onChangeText={text => setemailTextLogin(text)}
             right={<TextInput.Icon icon="account" color="#0063A9" />}
@@ -297,7 +299,7 @@ export default function SignInScreen({navigation}) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.forgotPasswordButton}
-            onPress={() => navigation.navigate('Home')}>
+            onPress={() => navigation.navigate('ForgotPasswordScreen')}>
             <Text style={styles.forgotPasswordText}>Şifremi Unuttum?</Text>
           </TouchableOpacity>
         </View>
@@ -311,6 +313,8 @@ export default function SignInScreen({navigation}) {
             activeOutlineColor="#0063A9"
             mode="outlined"
             label="Email"
+            autoCapitalize="none"
+            keyboardType="email-address"
             onChangeText={text => setEmailTextRegister(text)}
             right={<TextInput.Icon icon="account" color="#0063A9" />}
           />
@@ -383,7 +387,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: 'transparent', // Başlangıçta button alt kenar çizgisini gizlendi
   },
-  signText:{
+  signText: {
     fontSize: 15,
     color: '#828282',
   },

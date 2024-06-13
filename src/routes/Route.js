@@ -10,6 +10,7 @@ import CalenderScreen from '../screens/CalenderScreen';
 import Calender from '../components/Calender';
 import FAQScreen from '../screens/FAQScreen';
 import FavoriteFaqScreen from '../screens/FavoriteFaqScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 
 //Context
 import {FavoritesProvider} from '../context/FavoriteFAQContext';
@@ -52,6 +53,11 @@ export default function Route({navigation}) {
           options={{headerShown: false}}
           name="Home"
           component={MyTabs}
+        />
+         <Stack.Screen
+          options={{headerShown: false}}
+          name="ForgotPasswordScreen"
+          component={ForgotPasswordScreen}
         />
         {/*  <Stack.Screen
           options={{headerShown: false}}
@@ -102,7 +108,7 @@ function MyTabs() {
           ),
         }}
       />
-     {/*  <Tabs.Screen
+      {/*  <Tabs.Screen
         name="Calender"
         component={CalenderScreen}
         options={{
