@@ -87,6 +87,16 @@ export default function SignInScreen({navigation}) {
       return;
     }
 
+    if (passwordRegister.length < 6) {
+      Alert.alert(
+        'Hata',
+        'Şifre en az 6 karakter olmalıdır.',
+        [{ text: 'Tamam', onPress: () => console.log('OK Pressed') }],
+        { cancelable: false },
+      );
+      return;
+    }
+
     if (passwordRegister !== confirmPasswordRegister) {
       Alert.alert(
         'Hata',
@@ -160,6 +170,16 @@ export default function SignInScreen({navigation}) {
         'Lütfen tüm alanları doldurunuz.',
         [{text: 'Tamam', onPress: () => console.log('OK Pressed')}],
         {cancelable: false},
+      );
+      return;
+    }
+    
+    if (passwordRegister.length < 6) {
+      Alert.alert(
+        'Hata',
+        'Şifre en az 6 karakter olmalıdır.',
+        [{ text: 'Tamam', onPress: () => console.log('OK Pressed') }],
+        { cancelable: false },
       );
       return;
     }
