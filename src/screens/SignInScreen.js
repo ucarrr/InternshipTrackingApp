@@ -174,7 +174,7 @@ export default function SignInScreen({navigation}) {
       return;
     }
     
-    if (passwordRegister.length < 6) {
+    /* if (passwordRegister.length < 6) {
       Alert.alert(
         'Hata',
         'Şifre en az 6 karakter olmalıdır.',
@@ -182,7 +182,7 @@ export default function SignInScreen({navigation}) {
         { cancelable: false },
       );
       return;
-    }
+    } */
     const url = URLs.BASE_URL + databases.LOGIN;
     const userURL = URLs.BASE_URL + databases.ME;
 
